@@ -6,7 +6,9 @@ const express = require('express'),
   PORT = process.env.PORT || 3300,
   ejs = require('ejs'),
   db = require('./db/db'),
-  pdf = require('./handlers/html-pdf'),
+  pdf = require('./middlewares/html-pdf'),
+  stuDetails = require('./middlewares/student-details')(db),
+  auth = require('./middlewares/authenticate')(db),
   mailer = require('./middlewares/mailer');
 
 app.use(express.static(__dirname + '/public'));
@@ -23,22 +25,15 @@ app.get('/certificate', function(req, res){
 	res.sendFile(`${__dirname}/public/certificate.html`);
 });
 
-app.get('/certificate/get'/*/:id/:key*/, pdf, mailer, function(req, res){
-	// run codes for sending files
-	console.log('finished');
-	res.send(req.userCertBuffer);
+app.get('/certificate/get'/*/:id/:key*/, stuDetails.completedCourse, pdf, mailer, function(req, res){
 
 	// check and confirm user's registration key 
 	// gather certifiicate details
 	// render and create certificate pdf file /*if not already exist*/
 	// 
-	// if (req.params.id == "view") {
-	// 	// render certificate
-	// 	res.send('this is your certificate');
-	// }else{
-	// 	// download certificate
-	// 	res./*download*/send('downloading certificate');
-	// }
+
+	// run codes for sending files
+	res.send(req.userCertBuffer);
 });
 
 /*may not be used*/
@@ -47,7 +42,7 @@ app.get('/certificate/download', function(req, res){
 	res./*download*/send('downloading certificate');
 });
 
-app.get('/certificate/verify', function(req, res){
+app.get('/certificate/verify', stuDetails.completedCourse, function(req, res){
 	// verifying certification
 
 	// check and confirm user's registration key 
@@ -56,23 +51,23 @@ app.get('/certificate/verify', function(req, res){
 		// course of study
 		// duration <optional>
 		// date and time completed
-	db.user.findOne({
-		where: {
-			regNo: req.query.key,
-			completed: true
-		}
-	}).then(function(user){
-		if (user) {
-			return res.json(user.toJSON());
-		}
 
-		res.status(404).send();
+	res.json(req.user.toJSON());
+});
+
+app.post('/student/register', function(req, res){
+	db.user.createRegKey(req).then(function(){
+		db.user.create(req.body).then(function(user){
+			res.json(user.toJSON());
+		}, function(e){
+			res.status(500).send(e);
+		});
 	}, function(e){
-		res.status(500).send();
+		res.status(500).send(e);
 	});
 });
 
-app.post('/register-course', function(req, res){
+app.post('/course/register', auth.authEmail, function(req, res){
 	// register user for course
 	// firstname
 	// last name
@@ -85,14 +80,16 @@ app.post('/register-course', function(req, res){
 	// registration key
 	// registration date
 	// 
-	db.user.createRegKey(req).then(function(){
-		db.user.create(req.body).then(function(user){
-			res.json(user.toJSON());
-		}, function(){
-			res.status(500).send();
+	db.course.create(req.body).then(function(course){
+		req.user.addCourse(course).then(function(){
+			return course.reload();
+		}).then(function(course){
+			res.json(course.toJSON());
+		}, function(e){
+			res.status(500).send(e||null);
 		});
-	}, function(){
-		res.status(500).send();
+	}, function(e){
+		res.status(500).send(e||null);
 	});
 });
 
