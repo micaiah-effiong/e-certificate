@@ -29,7 +29,7 @@ module.exports = function (sequelize, DataType) {
 			valitade: {
 				isEmail: true
 			}
-		},
+		},/*
 		course: {
 			type: DataType.STRING,
 			allowNull: false,
@@ -38,20 +38,20 @@ module.exports = function (sequelize, DataType) {
 		duration: {
 			type: DataType.STRING,
 			allowNull: false
-		},
+		},*/
 		regNo: {
 			type: DataType.STRING,
 			allowNull: false,
 			unique: true,
-		},
+		},/*
 		completed: {
 			type: DataType.BOOLEAN,
 			defaultValue : false
-		},
+		},*//*
 		dateCompleted: {
 			type: DataType.DATE,
 			allowNull: true
-		}
+		}*/
 	},
 	{
 		hooks: {
@@ -72,6 +72,20 @@ module.exports = function (sequelize, DataType) {
 			}catch(e){
 				reject(e);
 			}
+		});
+	}
+
+	user.findByEmail = function(email){
+		return new Promise(function(resolve, reject){
+			user.findOne({
+				where:{
+					email: email
+				}}).then(function(user){
+				if (user) return resolve(user);
+				reject();
+			}, function(err){
+				reject(err);
+			});
 		});
 	}
 
