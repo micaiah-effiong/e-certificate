@@ -10,5 +10,9 @@ sequelize = new Sequelize(undefined, undefined, undefined,{
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.user = sequelize.import(__dirname+'/../models/user.js');
+db.course = sequelize.import(__dirname+'/../models/course.js');
+
+db.user.hasMany(db.course);
+db.course.belongsTo(db.user);
 
 module.exports = db;
