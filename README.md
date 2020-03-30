@@ -1,2 +1,8 @@
-# e-certificate
-generating and verifying certificates for students
+# E-certificate
+Generating and verifying certificates for students
+
+# Installation
+
+# Usage
+
+# Contributions
