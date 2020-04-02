@@ -4,7 +4,8 @@ let sequelize;
 
 sequelize = new Sequelize(undefined, undefined, undefined,{
 	dialect: 'sqlite',
-	storage: `${__dirname}/../data/database.sqlite`
+	storage: `${__dirname}/../data/database.sqlite`,
+	logging: false
 });
 
 db.sequelize = sequelize;
