@@ -7,7 +7,7 @@ const express = require('express'),
   ejs = require('ejs'),
   db = require('./db/db'),
   pdf = require('./middlewares/html-pdf'),
-  stuDetails = require('./middlewares/student-details')(db),
+  stuDetails = require('./middlewares/user-details')(db),
   auth = require('./middlewares/authenticate')(db),
   mailer = require('./middlewares/mailer');
 
@@ -34,6 +34,7 @@ app.get('/certificate/get'/*/:id/:key*/, stuDetails.completedCourse, pdf, mailer
 
 	// run codes for sending files
 	res.send(req.userCertBuffer);
+	// res.render('index', {name: `${req.user.firstname} ${req.user.lastname}`});
 });
 
 /*may not be used*/
@@ -52,7 +53,7 @@ app.get('/certificate/verify', stuDetails.completedCourse, function(req, res){
 		// duration <optional>
 		// date and time completed
 
-	res.json(req.user.toJSON());
+	res.json(req.user.completedCourse);
 });
 
 app.post('/student/register', function(req, res){
