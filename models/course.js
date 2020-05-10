@@ -1,7 +1,8 @@
 module.exports = function(sequelize, DataType){
 	let course = sequelize.define('course', {
 		courseName: {
-			type: DataType.STRING,
+			type: DataType.ENUM,
+			values: ['GD', 'WD', 'PR', 'DM']
 		},
 		courseDuration: {
 			type: DataType.STRING,
