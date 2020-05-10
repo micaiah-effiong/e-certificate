@@ -63,6 +63,10 @@ module.exports = function (sequelize, DataType) {
 		}
 	});
 
+	user.prototype.getFullname = function() {
+		return `${this.firstname} ${this.lastname}`;
+	};
+
 	user.createRegKey = function(req){
 		return new Promise(function(resolve, reject){
 			try{
