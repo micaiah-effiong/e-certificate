@@ -2,11 +2,18 @@ const Sequelize = require('sequelize');
 let db = Object.create(null);
 let sequelize;
 
-sequelize = new Sequelize(undefined, undefined, undefined,{
-	dialect: 'sqlite',
-	storage: `${__dirname}/../data/database.sqlite`,
-	logging: false
-});
+
+if(process.env.NODE_ENV == "development"){
+  sequelize = new Sequelize(undefined, undefined, undefined,{
+  	dialect: 'sqlite',
+  	storage: `${__dirname}/../data/database.sqlite`,
+  	logging: false
+  });
+}else{
+  sequelize = new Sequelize({
+    // set up database connection for production
+  });
+}
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
