@@ -4,26 +4,29 @@ const toPdf = require('html-pdf'),
 
 module.exports = function(req, res, next){
 	let link = '/certificate/verify/?key='+req.user.regNo;
-	let template = fs.readFileSync(require.resolve('../views/index.ejs'), 'utf8');
-	let html = ejs.render(template, {
-		name: req.user.getFullname(),
-		courses: req.user.completedCourse,
-		link: `<a href="${link}"> click here to verify certificate </a>`
-	});
+	fs.readFile(require.resolve('../views/index.ejs'), 'utf8', (err, template)=>{
+		if (err) return console.log(err);
 
-	toPdf.create(html, {format: 'A5', orientation: 'landscape'}).toBuffer(function(err, buffer){
-		if (err) return res.send(err.stack);
-		res.set('Content-type', 'application/pdf');
-		req.mailing = {
-			to: req.user.email, // req.body.email
-			subject: "certificate of completion",
-			attachments : {
-				filename: "certificate.pdf",
-				content: buffer
-			}
-		};
+		let html = ejs.render(template, {
+			name: req.user.getFullname(),
+			courses: req.user.completedCourse,
+			link: `<a href="${link}"> click here to verify certificate </a>`
+		});
 
-		req.userCertBuffer = buffer;
-		next();
+		toPdf.create(html, {format: 'A5', orientation: 'landscape'}).toBuffer(function(err, buffer){
+			if (err) return res.send(err.stack);
+			res.set('Content-type', 'application/pdf');
+			req.mailing = {
+				to: req.user.email, // req.body.email
+				subject: "Certificate of Completion",
+				attachments : {
+					filename: "Certificate.pdf",
+					content: buffer
+				}
+			};
+
+			req.userCertBuffer = buffer;
+			next();
+		});
 	});
 }
