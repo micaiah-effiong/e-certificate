@@ -1,15 +1,15 @@
 const nodemailer = require('nodemailer');
 
 module.exports = function (req, res, next) {
-	if (!!req.query.sendToMail == false ||
-		!!req.body.sendMail == false) return next();
+	if (!req.query.sendToMail
+		|| !req.body.sendMail) return next();
 
 	const transpoter = nodemailer.createTransport({
 		tls: {rejectUnauthorized: false},
 		service: 'gmail',
 		auth: {
-			user: "micaiah.effiong@gmail.com",
-			pass: process.env.emailPass
+			user: process.env.EMAIL,
+			pass: process.env.EMAIL_PASS
 		}
 	});
 
