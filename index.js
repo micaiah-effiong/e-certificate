@@ -6,54 +6,21 @@ const express = require('express'),
   PORT = process.env.PORT || 3300,
   ejs = require('ejs'),
   db = require('./db/db'),
-  pdf = require('./middlewares/html-pdf'),
   stuDetails = require('./middlewares/user-details')(db),
   auth = require('./middlewares/authenticate')(db),
-  mailer = require('./middlewares/mailer');
+  certRoute = require('./routes/certificate'),
+  courseRoute = require('./routes/certificate');
+  // certRoute = require('./routes/certificate');
 
+app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
-app.set('view engine', 'ejs');
+app.use('/certificate', certRoute);
 
 // routes
 app.get('/', function(req, res){
-	res.send("<h1> working </h1>");
-});
-
-app.get('/certificate', function(req, res){
 	res.sendFile(`${__dirname}/public/certificate.html`);
-});
-
-app.get('/certificate/get'/*/:id/:key*/, stuDetails.completedCourse, pdf, mailer, function(req, res){
-
-	// check and confirm user's registration key 
-	// gather certifiicate details
-	// render and create certificate pdf file /*if not already exist*/
-	// 
-
-	// run codes for sending files
-	res.send(req.userCertBuffer);
-	// res.render('index', {name: `${req.user.firstname} ${req.user.lastname}`});
-});
-
-/*may not be used*/
-app.get('/certificate/download', function(req, res){
-	// run codes for sending files
-	res./*download*/send('downloading certificate');
-});
-
-app.get('/certificate/verify', stuDetails.completedCourse, function(req, res){
-	// verifying certification
-
-	// check and confirm user's registration key 
-	// gather user details
-		// fullname
-		// course of study
-		// duration <optional>
-		// date and time completed
-
-	res.json(req.user.completedCourse);
 });
 
 app.post('/student/register', function(req, res){
@@ -104,7 +71,7 @@ app.use(function(error, res, res, next){
 	res.status(500).send();
 });
 
-// running
+// database connection
 db.sequelize.sync({force: false}).then(function(){
 	server.listen(PORT, function(){
 		console.log(`server running on port ${PORT}`);
