@@ -1,10 +1,10 @@
 const express = require('express');
+const path = require('path');
 const db = require('../db/db');
 const pdf = require('../middlewares/html-pdf');
 const mailer = require('../middlewares/mailer');
 const stuDetails = require('../middlewares/user-details')(db);
 const router = express.Router();
-const path = require('path');
 
 router.use(express.static(path.join(__dirname, '..', 'public')));
 
