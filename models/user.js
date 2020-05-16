@@ -59,7 +59,6 @@ module.exports = function (sequelize, DataType) {
 	{
 		hooks: {
 			beforeValidate: function(user, option){
-				console.log('user', user.email, user.salt, user.password, user.hash)
 				if(user.email){
 					user.email = user.email.toLowerCase().trim();
 				}
