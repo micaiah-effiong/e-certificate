@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
-
-// set fullname column
+const jwt = require('jsonwebtoken');
 
 module.exports = function (sequelize, DataType) {
 	let _valitade  = {
@@ -29,33 +28,38 @@ module.exports = function (sequelize, DataType) {
 			valitade: {
 				isEmail: true
 			}
-		},/*
-		course: {
-			type: DataType.STRING,
-			allowNull: false,
-			valitade: _valitade
 		},
-		duration: {
-			type: DataType.STRING,
-			allowNull: false
-		},*/
 		regNo: {
 			type: DataType.STRING,
 			allowNull: false,
 			unique: true,
-		},/*
-		completed: {
-			type: DataType.BOOLEAN,
-			defaultValue : false
-		},*//*
-		dateCompleted: {
-			type: DataType.DATE,
-			allowNull: true
-		}*/
+		},
+		password: {
+			type: DataType.VIRTUAL,
+			allowNull: false,
+			valitade: {
+				len: [6, 100]
+			},
+			set: function(value){
+				console.log("value", value);
+				let salt = bcrypt.genSaltSync(10);
+				let hash = bcrypt.hashSync(value, salt);
+				this.setDataValue('password', value);
+				this.setDataValue('salt', salt);
+				this.setDataValue('hash', hash);
+			}
+		},
+		salt: {
+			type: DataType.STRING
+		},
+		hash: {
+			type: DataType.STRING
+		},
 	},
 	{
 		hooks: {
 			beforeValidate: function(user, option){
+				console.log('user', user.email, user.salt, user.password, user.hash)
 				if(user.email){
 					user.email = user.email.toLowerCase().trim();
 				}
@@ -67,15 +71,45 @@ module.exports = function (sequelize, DataType) {
 		return `${this.firstname} ${this.lastname}`;
 	};
 
+	user.prototype.generateToken = function() {
+		const self = this;
+		return new Promise(function(resolve, reject){
+			const payload = JSON.stringify(self.toPublicJSON());
+			jwt.sign({data: payload}, process.env.PRIVATE_KEY, {expiresIn: '10s'}, (err, token)=>{
+				if(err) return reject(err);
+				resolve(token);
+			});
+		})
+	};
+
+	user.prototype.toPublicJSON = function(){
+		return {
+	    id: this.id,
+	    firstname: this.firstname,
+	    lastname: this.lastname,
+	    otherNames: this.otherNames,
+	    email: this.email,
+	    regNo: this.regNo
+    }
+	}
+
 	user.createRegKey = function(req){
 		return new Promise(function(resolve, reject){
-			try{
-				let minor = !!Math.round(Math.random()) ? 'a' : 'b';
-				req.body.regNo = bcrypt.genSaltSync(10, minor);
-				resolve();
-			}catch(e){
-				reject(e);
-			}
+			let info = {...req.body};
+			bcrypt.genSalt(10).then(s=>{
+				bcrypt.hash(info.email+info.password, s)
+				.then(result=>{
+					let _regNo = result.split('').reverse().join('').replace(/[-|?|\|/|.]/g,'');
+					req.body.regNo = _regNo;
+					resolve(_regNo);
+				})
+				.catch(err=>{
+					reject(err);
+				});
+			})
+			.catch(err=>{
+				reject(err);
+			});
 		});
 	}
 
