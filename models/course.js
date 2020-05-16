@@ -2,7 +2,10 @@ module.exports = function(sequelize, DataType){
 	let course = sequelize.define('course', {
 		courseName: {
 			type: DataType.ENUM,
-			values: ['GD', 'WD', 'PR', 'DM']
+			values: ['GD', 'WD', 'PR', 'DM'],
+			valitade:{
+				len: [2]
+			}
 		},
 		courseDuration: {
 			type: DataType.STRING,
