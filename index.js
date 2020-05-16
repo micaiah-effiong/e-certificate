@@ -5,34 +5,25 @@ const express = require('express'),
   server = http.createServer(app),
   PORT = process.env.PORT || 3300,
   ejs = require('ejs'),
+  cookieParser = require('cookie-parser'),
   db = require('./db/db'),
   stuDetails = require('./middlewares/user-details')(db),
   auth = require('./middlewares/authenticate')(db),
   certRoute = require('./routes/certificate'),
-  courseRoute = require('./routes/certificate');
-  // certRoute = require('./routes/certificate');
+  courseRoute = require('./routes/course'),
+  studentRoute = require('./routes/user');
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+app.use(cookieParser());
 app.use('/certificate', certRoute);
+app.use('/user', studentRoute);
 
 // routes
 app.get('/', function(req, res){
 	res.sendFile(`${__dirname}/public/certificate.html`);
-});
-
-app.post('/student/register', function(req, res){
-	db.user.createRegKey(req).then(function(){
-		db.user.create(req.body).then(function(user){
-			res.json(user.toJSON());
-		}, function(e){
-			res.status(500).send(e);
-		});
-	}, function(e){
-		res.status(500).send(e);
-	});
 });
 
 app.post('/course/register', auth.authEmail, function(req, res){
