@@ -4,7 +4,8 @@
   "description": "generating and verifying certificates for students",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node-dev index.js"
   },
   "keywords": [
     "certification"
