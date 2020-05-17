@@ -1,23 +1,29 @@
 require('dotenv').config();
-const express = require('express'),
-  app = express(),
-  http = require('http'),
-  server = http.createServer(app),
-  PORT = process.env.PORT || 3300,
-  ejs = require('ejs'),
-  cookieParser = require('cookie-parser'),
-  db = require('./db/db'),
-  stuDetails = require('./middlewares/user-details')(db),
-  auth = require('./middlewares/authenticate')(db),
-  certRoute = require('./routes/certificate'),
-  courseRoute = require('./routes/course'),
-  studentRoute = require('./routes/user');
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const PORT = process.env.PORT || 3300;
+const ejs = require('ejs');
+const cookieParser = require('cookie-parser');
+const db = require('./db/db');
+const stuDetails = require('./middlewares/user-details')(db);
+const errorHandler = require('./middlewares/error-handler.js');
+const auth = require('./middlewares/authenticate')(db);
+const certRoute = require('./routes/certificate');
+const courseRoute = require('./routes/course');
+const studentRoute = require('./routes/user');
 
+// template engine set up
 app.set('view engine', 'ejs');
+
+// middlewares
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cookieParser());
+
+// mounting routes
 app.use('/certificate', certRoute);
 app.use('/user', studentRoute);
 
@@ -57,10 +63,7 @@ app.use(function(req, res){
 	res.status(404).send("File not found");
 });
 
-app.use(function(error, res, res, next){
-	console.log(error);
-	res.status(500).send();
-});
+app.use(errorHandler);
 
 // database connection
 db.sequelize.sync({force: false}).then(function(){
