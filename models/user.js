@@ -21,6 +21,11 @@ module.exports = function (sequelize, DataType) {
 			defaultValue: '',
 			valitade: _valitade
 		},
+		gender: {
+			type: DataType.ENUM,
+			values: ['M','F'],
+			allowNull: false
+		},
 		email: {
 			type: DataType.STRING,
 			allowNull: false,
