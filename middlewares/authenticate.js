@@ -13,50 +13,71 @@ module.exports = function (db) {
 			});
 		},
 		authToken: function(req, res, next){
-			console.log('cookies', req.cookies, req.cookies.serialized['x-token']);
-
-			if (req.cookies.serialized) {
+			if (req.cookies.serialized && req.cookies.serialized.isIn) {
 				jwt.verify(req.cookies.serialized['x-token'], process.env.PRIVATE_KEY, (err, decoded)=>{
-						console.log("decoded lev 1", decoded);
-					if (decoded){
-						console.log("decoded", decoded);
-						next();
-					}else	if (req.cookies.serialized.isIn) {
-						console.log(auth, 'refreshing token');
-						auth.refreshToken(req, res, next)
+					if(err){
+						if(err.name == "TokenExpiredError"){
+							console.log('refreshing token under err');
+							return auth.refreshToken(req, res, next);
+						}else{
+							return res.status(500).json({
+								success: false,
+								error: err,
+								msg: "could not verify user authentication"
+							});
+						}
+					}else if (decoded){
+						let decodedData = JSON.parse(decoded.data);
+						console.log("decoded level 1", !!decoded);
+						return (decodedData.id == req.cookies.serialized.serialized)
+						? next()
+						: res.status(401).json({
+							success: false,
+							msg: 'Invalid user token'
+						});
 					}else{
-						res.status(401).send();
+						console.log('refreshing token');
+						return auth.refreshToken(req, res, next)
 					}
 				});
 			}else{
-				res.status(401).send();
+				res.status(401).json({
+					success: false,
+					msg: "could not authentication user"
+				});
 			}		
 		},
 		refreshToken: function(req, res, next){
-			db.user.findByPk(req.cookies.serialized.serialized)
+			return db.user.findByPk(req.cookies.serialized.serialized)
 			.then(user=>{
 				if (!user) return res.status(401).send();
-				console.log('refresh Token level 1')
 				return user.generateToken()
 		    .then(token=>{
 		      return {
 		        user,
 		        token
 		      }
-		    })
+		    });
 			})
 			.then(userToken=>{
-				console.log('refresh Token level 2')
 				res.cookie('serialized', {
 		      serialized: userToken.user.get('id'),
 		      isIn: true,
 		      'x-token': userToken.token
-		    })
-				next()
+		    });
+		    return next();				
 			})
-			.catch(e=> res.status(401).send());
+			.catch(e=> {
+				res.status(500).json({
+					success: false,
+					error: e,
+					msg: "Token refresh error"
+				});
+			})
+			.finally(function(){
+				console.log("Done")
+			});
 		}
 	}
-
 	return auth;
 }
