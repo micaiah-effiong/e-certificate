@@ -11,7 +11,6 @@ const stuDetails = require('./middlewares/user-details')(db);
 const errorHandler = require('./middlewares/error-handler.js');
 const auth = require('./middlewares/authenticate')(db);
 const certRoute = require('./routes/certificate');
-const courseRoute = require('./routes/course');
 const studentRoute = require('./routes/user');
 
 // template engine set up
@@ -30,32 +29,6 @@ app.use('/user', studentRoute);
 // routes
 app.get('/', function(req, res){
 	res.sendFile(`${__dirname}/public/certificate.html`);
-});
-
-app.post('/course/register', auth.authEmail, function(req, res){
-	// register user for course
-	// firstname
-	// last name
-	// other names <optional>
-	// email address
-	// course of study
-	// duration <optional>
-	// 
-	// genatrate
-	// registration key
-	// registration date
-	// 
-	db.course.create(req.body).then(function(course){
-		req.user.addCourse(course).then(function(){
-			return course.reload();
-		}).then(function(course){
-			res.json(course.toJSON());
-		}, function(e){
-			res.status(500).send(e||null);
-		});
-	}, function(e){
-		res.status(500).send(e||null);
-	});
 });
 
 /*errors*/
