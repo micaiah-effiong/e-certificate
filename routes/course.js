@@ -9,19 +9,34 @@ const stuDetails = require('../middlewares/user-details')(db);
 const errorResponse = require('../handlers/error');
 const router = express.Router();
 
-router.post('/', auth.authToken, auth.authEmail, function(req, res){
-  db.course.create(req.body)
-  .then(function(course){
-    req.user.addCourse(course).then(function(){
-      return course.reload();
-    }).then(function(course){
-      res.json(course.toJSON());
-    }, function(e){
-      res.status(500).send(e||null);
-    });
-  }, function(e){
-    res.status(500).send(e||null);
-  });
+router.post('/', auth.authToken, auth.authEmail,  function(req, res, next){
+  if(!req.user) return next(errorResponse('Invalid Credentials', 401));
+
+  req.user.getCourses()
+    .then(function(userCourses){
+      let result = userCourses.filter(course=>{
+        if(course.courseName == req.body.courseName) return course;
+      });
+
+      // checking  for already registered course
+      if(result.length > 0) return next(errorResponse('Course already registered', 400));
+
+      db.course.create(req.body)
+        .then(course=>course)
+        .then(course=>{
+          return req.user.addCourse(course)
+          .then(function(){
+            return course.reload();
+          })
+        })
+        .then(function(course){
+          res.json({
+            success: true,
+            data: course.toJSON()
+          });
+        })
+        .catch(err=>next(err));
+    });    
 });
 
 module.exports = router;
