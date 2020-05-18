@@ -28,7 +28,6 @@ module.exports = function (db) {
 						}
 					}else if (decoded){
 						let decodedData = JSON.parse(decoded.data);
-						req.userData = decodedData;
 						console.log("decoded level 1", decoded);
 						return (decodedData.id == req.cookies.serialized.serialized)
 						? next()
