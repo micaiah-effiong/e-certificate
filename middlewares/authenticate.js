@@ -1,18 +1,22 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const errorResponse = require('../handlers/error');
 
 module.exports = function (db) {
 	let auth = {
 		authEmail: function(req, res, next){
-			db.user.findByEmail(req.body.email.toLowerCase()).then(function(user){
-				if (!user) return res.status(400).send('Invalid Credentials');
-				req.user = user;
-				next();
-			}, function(e){
-				res.status(500).send(e||null);
-			});
+			db
+				.user
+				.findByEmail(req.body.email.toLowerCase())
+				.then(function(user){
+					if (!user) return res.status(400).send('Invalid Credentials');
+					req.user = user;
+					next();
+				})
+				.catch(err=>next(err));
 		},
 		authToken: function(req, res, next){
+			console.log(req.cookies.serialized);
 			if (req.cookies.serialized && req.cookies.serialized.isIn) {
 				jwt.verify(req.cookies.serialized['x-token'], process.env.PRIVATE_KEY, (err, decoded)=>{
 					if(err){
@@ -20,15 +24,12 @@ module.exports = function (db) {
 							console.log('refreshing token under err');
 							return auth.refreshToken(req, res, next);
 						}else{
-							return res.status(500).json({
-								success: false,
-								error: err,
-								msg: "could not verify user authentication"
-							});
+							return next(errorResponse('Could not verify user authentication', 401));
 						}
 					}else if (decoded){
 						let decodedData = JSON.parse(decoded.data);
-						console.log("decoded level 1", !!decoded);
+						req.userData = decodedData;
+						console.log("decoded level 1", decoded);
 						return (decodedData.id == req.cookies.serialized.serialized)
 						? next()
 						: res.status(401).json({
@@ -48,9 +49,10 @@ module.exports = function (db) {
 			}		
 		},
 		refreshToken: function(req, res, next){
+			console.log(req.cookies.serialized)
 			return db.user.findByPk(req.cookies.serialized.serialized)
 			.then(user=>{
-				if (!user) return res.status(401).send();
+				if (!user) return next(errorResponse('Unauthorize', 401));
 				return user.generateToken()
 		    .then(token=>{
 		      return {
@@ -65,18 +67,12 @@ module.exports = function (db) {
 		      isIn: true,
 		      'x-token': userToken.token
 		    });
-		    return next();				
+		    next();				
+		    return userToken;
 			})
-			.catch(e=> {
-				res.status(500).json({
-					success: false,
-					error: e,
-					msg: "Token refresh error"
-				});
+			.catch(err=> {
+				next(err);
 			})
-			.finally(function(){
-				console.log("Done")
-			});
 		}
 	}
 	return auth;
