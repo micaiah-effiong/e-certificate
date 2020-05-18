@@ -34,6 +34,11 @@ module.exports = function (sequelize, DataType) {
 				isEmail: true
 			}
 		},
+		role: {
+			type: DataType.STRING,
+			allowNull: true,
+			defaultValue: 'user'
+		},
 		regNo: {
 			type: DataType.STRING,
 			allowNull: false,
@@ -67,10 +72,20 @@ module.exports = function (sequelize, DataType) {
 				if(user.email){
 					user.email = user.email.toLowerCase().trim();
 				}
+				if (user.firstname) {
+					user.firstname = toSentenceCase(user.firstname);
+				}
+				if (user.lastname) {
+					user.lastname = toSentenceCase(user.lastname);
+				}
+				if (user.otherNames) {
+					user.otherNames = toSentenceCase(user.otherNames);
+				}
 			}
 		}
 	});
 
+	// instance methods
 	user.prototype.getFullname = function() {
 		return `${this.firstname} ${this.lastname}`;
 	};
@@ -97,6 +112,7 @@ module.exports = function (sequelize, DataType) {
     }
 	}
 
+	// class methods
 	user.createRegKey = function(req){
 		return new Promise(function(resolve, reject){
 			let info = {...req.body};
@@ -132,4 +148,12 @@ module.exports = function (sequelize, DataType) {
 	}
 
 	return user;
+}
+
+function toSentenceCase(word){
+	return word
+		.trim()
+		.split('')
+		.map((e,a)=>(a==0)?e.toUpperCase():e.toLowerCase())
+		.join('');
 }
