@@ -7,14 +7,17 @@ const auth = require('../middlewares/authenticate')(db);
 const pdf = require('../middlewares/html-pdf');
 const stuDetails = require('../middlewares/user-details')(db);
 const errorResponse = require('../handlers/error');
+const courseRoute = require('../routes/course');
 const router = express.Router();
 
-router.get('/', auth.authToken, (req, res)=>{
+router.use('/course', courseRoute);
+
+router.get('/', auth.authToken, (req, res, next)=>{
   db.user.findAll()
     .then(users=>{
-      if(!users) return res.status(404).json({
-        success: false,
-        msg: 'users not found'
+      if(!users) return res.json({
+        success: true,
+        data: users
       });
       let result = users.map(user=>{
         return user.toPublicJSON();
@@ -25,19 +28,15 @@ router.get('/', auth.authToken, (req, res)=>{
       });
     })
     .catch(err=>{
-      res.status(500).json({
-        success: false,
-        msg: 'An error occured while fetching users',
-        err: err
-      });
+      next(err);
     })
 });
 
 router.get('/profile', auth.authToken, (req, res)=>{
-  res.send('req.cookies');
+  res.send('Here is your profile');
 });
 
-router.get('/logout', (req, res)=>{
+router.get('/logout', (req, res, next)=>{
   console.log('login out')
   res.cookie('serialized', {
     isIn: false,
@@ -49,122 +48,121 @@ router.get('/logout', (req, res)=>{
   });
 });
 
-
-router.post('/', function(req, res){
-  db.user.createRegKey(req).then(function(){
-    db.user.create(req.body).then(function(user){
-      res.status(201).json(user.toPublicJSON());
-    }, function(e){
-      res.status(500).send(e);
-    });
-  }, function(e){
-    res.status(500).send(e);
-  });
+router.post('/', function(req, res, next){
+  db.user.createRegKey(req)
+    .then(function(){
+      return req.body;
+    })
+    .then(info=>{
+      return db.user.create(info);
+    })
+    .then(function(user){
+      res
+        .status(201)
+        .json({
+          success: true,
+          data: user.toPublicJSON()
+        });
+    })
+    .catch(err=>next(err));
 });
 
-router.post('/login', function(req, res){
+router.post('/login', function(req, res, next){
   db.user.findOne({
     where:{
       email: req.body.email
     }
   })
   .then(function(user){
-    if (!user) return new Error("Invalid credentials");
+    if (!user) return next(errorResponse('Invalid credentials', 400));
+    req.user = user;
     return user;
   })
   .then(user=>{
     return bcrypt.compare(req.body.password, user.get('hash'))
-    .then(result=>{
-      return {user, result}
-    });
   })
-  .then(info=>{
-    if (info.result) {
-      let {user} = info;
-      return user.generateToken()
-      .then(token=>{
-        return {
-          user,
-          token
-        }
-      })
+  .then(result=>{
+    if (!result) {
+      return next(errorResponse('Invalid credentials', 400));
     }
-    return new Error("Invalid credentials");
+    return req.user.generateToken();    
   })
-  .then(userToken=>{
+  .then(token=>{
     res.cookie('serialized', {
-      serialized: userToken.user.get('id'),
+      serialized: req.user.get('id'),
       isIn: true,
-      'x-token': userToken.token
+      'x-token': token
     }).json({
       success: true,
       msg: 'User has logged in',
-      data: userToken.user.toPublicJSON()
+      data: req.user.toPublicJSON()
     });
   })
-  .catch(e=>{
-    res.status(400).json({
-      success: false,
-      err: e,
-      msg: "Could not login user due to Invalid credentials"
-    });
+  .catch(err=>{
+    next(err);
   });
 });
 
-router.put('/:id', auth.authToken, (req, res)=>{
-  db.user.findOne({where:{id: req.param.id}})
-    .then(user=>{
-      if(!user) return res.status(400).json({
-        status: false,
-        msg: 'no valid user with such ID'
-      });
-      return user;
+router.put('/:id', auth.authToken, (req, res, next)=>{
+  let id = +(req.params.id);
+  if (!(req.cookies.serialized.serialized == id)) {
+    return next(errorResponse('Action not allowed', 401));
+  }else{
+    db.user.findOne({
+      where: { id }
     })
-    .then(user=>{
-      db.user.update(req.body)
-        .then(result=>{
-          res.json({
-            success: true,
-            msg: 'User has been updated',
-            data: result.toPublicJSON()
-          })
+      .then(user=>{
+        if(!user) return next(errorResponse('No such user', 400));
+        return user;
+      })
+      .then(user=>{
+        return user.update(req.body);
+      })
+      .then(result=>{
+        res.json({
+          success: true,
+          msg: 'User has been updated',
+          data: result.toPublicJSON()
         });
-    })
-    .catch(err=>{
-      res
-        .status(500)
-        .json({
-          success: false,
-          msg: 'Error occured while trying to update user details',
-          err: err
-        })
-    })
+      })
+      .catch(err=>{
+        next(err);
+      });
+  }
 });
 
-router.delete('/:id', auth.authToken, (req, res)=>{
-  
+router.delete('/:id', auth.authToken, (req, res, next)=>{
+  let id = +(req.params.id);
+  if (!(req.cookies.serialized.serialized == id)) {
+    return next(errorResponse('Action not allowed', 401));
+  }else{
+    return db.user.destroy({where: {id: id}})
+      .then(user=>{
+        if(!user) return next(errorResponse('user not found', 400));
+        return res.json({
+          success: true,
+          data: user
+        });
+      })
+      .catch(err=>{
+        next(err);
+      });
+  }
 });
 
-router.get('/:id', auth.authToken, (req, res)=>{
+router.get('/:id', auth.authToken, (req, res, next)=>{
   let id = +(req.params.id);
   return db.user.findByPk(id)
     .then(user=>{
-      if(!user) return res.status(404).json({
-        success: false,
-        msg: 'user not found'
-      });
+      if(!user) return next(errorResponse('user not found', 400));
       return res.json({
         success: true,
         data: user
       });
     })
     .catch(err=>{
-      res.status(400).json({
-        success: false,
-        msg: 'An error occured while fetching user',
-        err: err
-      });
-    })
+      next(err);
+    });
 });
 
 module.exports = router;
