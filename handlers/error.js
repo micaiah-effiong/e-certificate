@@ -1,7 +1,8 @@
-function ErrorResponse(message, statusCode){
-  this.prototype = Error.prototype;
-  this.message = Error.message;
-  this.statusCode = statusCode;
+class ErrorResponse extends Error {
+  constructor(message, statusCode){
+    super(message);
+    this.statusCode = statusCode;
+  }
 }
 
 const errorResponse = (message, statusCode)=>{
