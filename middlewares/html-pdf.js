@@ -1,6 +1,6 @@
-const toPdf = require('html-pdf'),
-	fs = require('fs'),
-	ejs = require('ejs');
+const toPdf = require('html-pdf');
+const fs = require('fs');
+const ejs = require('ejs');
 
 module.exports = function(req, res, next){
 	let link = '/certificate/verify/?key='+req.user.regNo;
