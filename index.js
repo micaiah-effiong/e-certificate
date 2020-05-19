@@ -10,6 +10,7 @@ const db = require('./db/db');
 const stuDetails = require('./middlewares/user-details')(db);
 const errorHandler = require('./middlewares/error-handler.js');
 const auth = require('./middlewares/authenticate')(db);
+const authRoute = require('./routes/auth');
 const certRoute = require('./routes/certificate');
 const studentRoute = require('./routes/user');
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // mounting routes
+app.use('/auth', authRoute);
 app.use('/certificate', certRoute);
 app.use('/user', studentRoute);
 
