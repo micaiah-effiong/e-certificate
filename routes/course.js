@@ -9,7 +9,7 @@ const stuDetails = require('../middlewares/user-details')(db);
 const errorResponse = require('../handlers/error');
 const router = express.Router();
 
-router.post('/', auth.authToken, auth.authEmail,  function(req, res, next){
+router.post('/', auth.authToken, function(req, res, next){
   if(!req.user) return next(errorResponse('Invalid Credentials', 401));
 
   req.user.getCourses()
