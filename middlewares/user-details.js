@@ -7,11 +7,10 @@ module.exports = function (db) {
 			}
 		}).then(function(user){
 			if (!user) return res.status(404).send();
-				req.user = user;
+				req._user = user;
 				user.getCourses().then(function(courses){
-					console.log(courses.length, !courses);
 					if (!courses) return res.status(404).send(e);
-					req.user.completedCourse = courses.filter(course=>{
+					req._user.completedCourse = courses.filter(course=>{
 						if(course.toJSON().completed){
 							return course.toJSON();
 						}
