@@ -22,7 +22,7 @@ module.exports = function (db) {
 				.findOne({where: { id }})
 				.then(function(user){
 					if (!user) return next(errorResponse('Invalid Credentials', 401));
-					req.user = user.toPublicJSON();
+					req.user = user;
 					next();
 					return user.toPublicJSON();
 				})
