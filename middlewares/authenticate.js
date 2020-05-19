@@ -9,14 +9,13 @@ module.exports = function (db) {
 				.user
 				.findByEmail(req.body.email.toLowerCase())
 				.then(function(user){
-					if (!user) return res.status(400).send('Invalid Credentials');
+					if (!user) return next(errorResponse('Invalid Credentials', 401));
 					req.user = user;
 					next();
 				})
 				.catch(err=>next(err));
 		},
 		authToken: function(req, res, next){
-			console.log(req.cookies.serialized);
 			if (req.cookies.serialized && req.cookies.serialized.isIn) {
 				jwt.verify(req.cookies.serialized['x-token'], process.env.PRIVATE_KEY, (err, decoded)=>{
 					if(err){
@@ -31,24 +30,17 @@ module.exports = function (db) {
 						console.log("decoded level 1", decoded);
 						return (decodedData.id == req.cookies.serialized.serialized)
 						? next()
-						: res.status(401).json({
-							success: false,
-							msg: 'Invalid user token'
-						});
+						: next(errorResponse('Invalid user token', 401));
 					}else{
-						console.log('refreshing token');
 						return auth.refreshToken(req, res, next)
 					}
 				});
 			}else{
-				res.status(401).json({
-					success: false,
-					msg: "could not authentication user"
-				});
+				next(errorResponse('Could not authentication user', 401));
 			}		
 		},
 		refreshToken: function(req, res, next){
-			console.log(req.cookies.serialized)
+			console.log('refreshing token');
 			return db.user.findByPk(req.cookies.serialized.serialized)
 			.then(user=>{
 				if (!user) return next(errorResponse('Unauthorize', 401));
