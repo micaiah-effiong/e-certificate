@@ -24,7 +24,8 @@ router.get('/', auth.authToken, (req, res, next)=>{
       });
       return res.json({
         success: true,
-        data: result
+        data: result,
+        count: result.length
       });
     })
     .catch(err=>{
