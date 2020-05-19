@@ -9,7 +9,27 @@ const stuDetails = require('../middlewares/user-details')(db);
 const errorResponse = require('../handlers/error');
 const router = express.Router();
 
-router.post('/', auth.authToken, function(req, res, next){
+router.use(auth.authToken)
+
+router.get('/', (req, res, next)=>{
+  if(!req.user) return next(errorResponse('Invalid Credentials', 401));
+  req
+    .user
+    .getCourses()
+    .then((userCourses)=>{
+      let result = userCourses.map(course=>{
+        return course.toJSON();
+      });
+      res
+        .json({
+          success: true,
+          data: result
+        });
+    })
+    .catch(err=>next(err));
+});
+
+router.post('/', (req, res, next)=>{
   if(!req.user) return next(errorResponse('Invalid Credentials', 401));
 
   req.user.getCourses()
