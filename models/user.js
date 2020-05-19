@@ -135,15 +135,13 @@ module.exports = function (sequelize, DataType) {
 
 	user.findByEmail = function(email){
 		return new Promise(function(resolve, reject){
-			user.findOne({
-				where:{
-					email: email
-				}}).then(function(user){
-				if (user) return resolve(user);
-				reject();
-			}, function(err){
-				reject(err);
-			});
+			user.findOne({where:{ email }})
+				.then(function(user){
+					if (!user) return reject();
+					resolve(user);
+				}, function(err){
+					reject(err);
+				});
 		});
 	}
 
