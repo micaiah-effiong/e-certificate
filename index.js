@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const http = require('http');
+const serverProxy= require('http-proxy');
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3300;
 const ejs = require('ejs');
@@ -42,6 +43,13 @@ app.use(errorHandler);
 
 // database connection
 db.sequelize.sync({force: false}).then(function(){
+	if (process.env.NODE_ENV == "development") {
+		serverProxy.createProxyServer({
+			target: 'http://localhost:'+PORT,
+			autoRewrite: true,
+			hostRewrite: true
+		}).listen(80);
+	}
 	server.listen(PORT, function(){
 		console.log(`server running on port ${PORT}`);
 	});
