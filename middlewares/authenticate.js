@@ -15,21 +15,32 @@ module.exports = function (db) {
 				})
 				.catch(err=>next(err));
 		},
+		authSerial: function(req, res, next){
+			let id = req.cookies.serialized.serialized;
+			db
+				.user
+				.findOne({where: { id }})
+				.then(function(user){
+					if (!user) return next(errorResponse('Invalid Credentials', 401));
+					req.user = user.toPublicJSON();
+					next();
+					return user.toPublicJSON();
+				})
+				.catch(err=>next(err));
+		},
 		authToken: function(req, res, next){
 			if (req.cookies.serialized && req.cookies.serialized.isIn) {
 				jwt.verify(req.cookies.serialized['x-token'], process.env.PRIVATE_KEY, (err, decoded)=>{
 					if(err){
 						if(err.name == "TokenExpiredError"){
-							console.log('refreshing token under err');
 							return auth.refreshToken(req, res, next);
 						}else{
 							return next(errorResponse('Could not verify user authentication', 401));
 						}
 					}else if (decoded){
 						let decodedData = JSON.parse(decoded.data);
-						console.log("decoded level 1", decoded);
 						return (decodedData.id == req.cookies.serialized.serialized)
-						? next()
+						? auth.authSerial(req, res, next)
 						: next(errorResponse('Invalid user token', 401));
 					}else{
 						return auth.refreshToken(req, res, next)
@@ -41,7 +52,7 @@ module.exports = function (db) {
 		},
 		refreshToken: function(req, res, next){
 			console.log('refreshing token');
-			return db.user.findByPk(req.cookies.serialized.serialized)
+			db.user.findByPk(req.cookies.serialized.serialized)
 			.then(user=>{
 				if (!user) return next(errorResponse('Unauthorize', 401));
 				return user.generateToken()
@@ -58,7 +69,7 @@ module.exports = function (db) {
 		      isIn: true,
 		      'x-token': userToken.token
 		    });
-		    next();				
+		    auth.authSerial(req, res, next);				
 		    return userToken;
 			})
 			.catch(err=> {
