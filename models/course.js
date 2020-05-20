@@ -1,11 +1,14 @@
 module.exports = function(sequelize, DataType){
 	let course = sequelize.define('course', {
-		courseName: {
+		courseCode: {
 			type: DataType.ENUM,
 			values: ['GD', 'WD', 'PR', 'DM'],
 			valitade:{
 				len: [2]
 			}
+		},
+		courseName: {
+			type: DataType.STRING
 		},
 		courseDuration: {
 			type: DataType.STRING,
@@ -20,5 +23,18 @@ module.exports = function(sequelize, DataType){
 			allowNull: true
 		}
 	});
+
+	// class methods
+	course.getCourseNameFromCourseCode = (code)=>{
+		return courses[code];
+	}
+
 	return course;
+}
+
+let courses = {
+	DM: "Digital Marketing",
+	GD: "Graphics Design",
+	PR: "Programming",
+	WD: "Web Development"
 }
