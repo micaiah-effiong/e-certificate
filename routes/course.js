@@ -17,9 +17,12 @@ router.get('/', (req, res, next)=>{
     .user
     .getCourses()
     .then((userCourses)=>{
-      let result = userCourses.map(course=>{
-        return course.toJSON();
-      });
+      let result = [];
+      if (userCourses && userCourses.length > 0) {
+        result = userCourses.map(course=>{
+          return course.toJSON();
+        });
+      }
       res
         .json({
           success: true,
