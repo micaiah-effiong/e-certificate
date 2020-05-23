@@ -5,14 +5,19 @@
 </head>
 <body>
   <form method="POST" action="/user/course">
-    <input type="email" name="email" required>
+    <input type="email" name="email" placeholder="email" required>
     <select name="courseCode" required>
       <option value="DM">Digital Marketing</option>
       <option value="GD">Graphics Design</option>
       <option value="PR">Programming</option>
       <option value="WD">Web Development</option>
     </select>
-    <input type="text" name="courseDuration" required>
+
+    <select name="courseDuration" required>
+      <option value="6 months">6 months</option>
+      <option value="3 months">3 months</option>
+    </select>
+    <input type="submit">
   </form>
 </body>
 </html>
