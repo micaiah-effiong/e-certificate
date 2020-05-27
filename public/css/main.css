@@ -1,11 +1,17 @@
+@font-face {
+  font-family: 'Varela';
+  src: url('webfont/Varela-Regular.ttf')  format('truetype');
+}
+
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: sans-serif
+  font-family: "Varela";
 }
 
 body {
+  position: relative;
   overflow-x: hidden;
 }
 
@@ -56,6 +62,7 @@ body {
   background-color: #ecf9f7;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .landing > div{
@@ -142,12 +149,20 @@ body {
 .btn{
   border-bottom-right-radius: 25%;
   background-color: #fbe1bc;
-  padding: 13px;
 }
 
 .nav-link, .nav-link a, a{
   text-decoration: none;
   color: black;
+  padding: 13px 5px;
+}
+
+.overlay{
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  pointer-events: none;
 }
 
 .design{
@@ -157,7 +172,8 @@ body {
   background-color: #93cac14d;
   border-radius: 50%;
   top: -62rem;
-  left: -30rem; 
+  left: -50%; 
+  pointer-events: none;
 }
 
 .design-1{
@@ -169,4 +185,5 @@ body {
   border-radius: 50%;
   right: -4rem;
   z-index: 5;
+  pointer-events: none;
 }
