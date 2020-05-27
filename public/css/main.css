@@ -5,13 +5,33 @@
   font-family: sans-serif
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .header{
   height: 55px;
   justify-content: space-between;
+  background-color: #ecf9f7;
 }
 
 .logo{
   display: inline-block;
+  width: 5rem;
+  margin-left: 3rem;
+  height: 95px;
+  background-color: #00695C;
+  position: relative;
+  border-radius: 0 0 0 25%;
+}
+
+.logo > span{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  width: fit-content;
 }
 
 .nav-bar{
@@ -32,8 +52,8 @@
 }
 
 .landing{
-  height: 450px;
-  background-color: snow;
+  height: 27rem;
+  background-color: #ecf9f7;
   display: flex;
   align-items: center;
 }
@@ -58,28 +78,69 @@
 }
 
 .landing > div > .link{
-  margin-top: 0.4rem;
+  margin-top: 0.6rem;
   margin-left: 1.4rem;
 }
 
 .content{
-  height: 70vh;
+  height: 27rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  box-shadow: -1px -1px #999, 1px 1px #999, 1px 1px #999;
+  background-color: #ecf9f7;
 }
 
 .content > div{
-  width: 27%;
+  height: 80%;
+  width: 23%;
+  margin: auto 1.5rem;
+  text-align: center;
+  display: grid;
+  box-shadow: 1px 0px 2px #0000003d;
+  border-radius: 10px 20% 10px 11%;
+}
+
+.content > div > header{
+  font-size: 1.7rem;
+  padding-top: 22px;
+}
+
+.content > div > section{
+  line-height: 1.5rem;
+  padding: 13px;
+  font-size: 15px;
+}
+
+.content > div > footer{
+  /*padding: 13px;*/
 }
 
 .footer{
+  position: relative;
   height: 400px;
+  display: flex;
+  align-items: center;
+  background-color: #00695C;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.footer > div{
+  width: 100%;
+  height: auto;
+}
+
+.footer > div > ul{
+  list-style-type: none;
+}
+
+.footer > div > ul >li{
+  margin: 5px;
+  padding: 13px;
 }
 
 .btn{
-  border-bottom-right-radius: 23px;
+  border-bottom-right-radius: 25%;
   background-color: #fbe1bc;
   padding: 13px;
 }
@@ -87,4 +148,25 @@
 .nav-link, .nav-link a, a{
   text-decoration: none;
   color: black;
+}
+
+.design{
+  height: 100rem;
+  position: absolute;
+  width: 150rem;
+  background-color: #93cac14d;
+  border-radius: 50%;
+  top: -62rem;
+  left: -30rem; 
+}
+
+.design-1{
+  height: 44rem !important;
+  width: 44rem !important;
+  position: absolute;
+  bottom: -9rem;
+  background-color: #93cac14d;
+  border-radius: 50%;
+  right: -4rem;
+  z-index: 5;
 }
