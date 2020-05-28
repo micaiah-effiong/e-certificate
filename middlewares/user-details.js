@@ -5,10 +5,9 @@ module.exports = function (db) {
 			where: queryObj
 		}).then(function(user){
 			if (!user) return res.status(404).send();
-				req._user = user;
 				user.getCourses().then(function(courses){
 					if (!courses) return res.status(404).send(e);
-					req._user.completedCourse = courses.filter(course=>{
+					req._completedCourse = courses.map(course=>{
 						if(course.toJSON().completed){
 							return course.toJSON();
 						}
@@ -37,7 +36,6 @@ module.exports = function (db) {
 			}
 
 			let id = req.query.key || req.body.key;
-			id = parseInt(id);
 			getCompletedCourse(req, res, next, {regNo: id});
 		}
 	}
