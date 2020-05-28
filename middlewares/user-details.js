@@ -1,10 +1,8 @@
 module.exports = function (db) {
 
-	function getCompletedCourse(req, res, next, id){
+	function getCompletedCourse(req, res, next, queryObj){
 		db.user.findOne({
-			where: {
-				regNo: id
-			}
+			where: queryObj
 		}).then(function(user){
 			if (!user) return res.status(404).send();
 				req._user = user;
@@ -27,11 +25,11 @@ module.exports = function (db) {
 	return {
 		completedCourse: function(req, res, next){
 			if (!(req.query.email || req.body.email)) {
-				return res.status(400).json({error: 'invalid request'})
+				return res.status(400).json({error: 'Bad request'})
 			}
 
-			let id = req.query.key || req.body.key;
-			getCompletedCourse(req, res, next, id);
+			let email = req.query.email || req.body.email;
+			getCompletedCourse(req, res, next, { email });
 		},
 		verifyCert: function(req, res, next){
 			if (!(req.query.key || req.body.key)) {
@@ -39,7 +37,8 @@ module.exports = function (db) {
 			}
 
 			let id = req.query.key || req.body.key;
-			getCompletedCourse(req, res, next, id);
+			id = parseInt(id);
+			getCompletedCourse(req, res, next, {regNo: id});
 		}
 	}
 }
