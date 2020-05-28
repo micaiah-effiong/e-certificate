@@ -12,7 +12,6 @@ const router = express.Router();
 router.use(auth.authToken)
 
 router.get('/', (req, res, next)=>{
-  if(!req.user) return next(errorResponse('Invalid Credentials', 401));
   req
     .user
     .getCourses()
@@ -32,8 +31,8 @@ router.get('/', (req, res, next)=>{
     .catch(err=>next(err));
 });
 
-router.post('/', (req, res, next)=>{
-  if(!req.user) return next(errorResponse('Invalid Credentials', 401));
+router.post('/', (req, res, next)=>{  
+  req.body.courseName = db.course.getCourseNameFromCourseCode(req.body.courseCode);
 
   req.user.getCourses()
     .then(function(userCourses){
@@ -43,7 +42,6 @@ router.post('/', (req, res, next)=>{
 
       // checking  for already registered course
       if(result.length > 0) return next(errorResponse('Course already registered', 400));
-      req.body.courseName = db.course.getCourseNameFromCourseCode(req.body.courseCode);
       db.course.create(req.body)
         .then(course=>course)
         .then(course=>{
