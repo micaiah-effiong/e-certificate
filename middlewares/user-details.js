@@ -1,5 +1,4 @@
 module.exports = function (db) {
-
 	function getCompletedCourse(req, res, next, queryObj){
 		db.user.findOne({
 			where: queryObj
@@ -7,6 +6,7 @@ module.exports = function (db) {
 			if (!user) return res.status(404).send();
 				user.getCourses().then(function(courses){
 					if (!courses) return res.status(404).send(e);
+					req._user = user;
 					req._completedCourse = courses.map(course=>{
 						if(course.toJSON().completed){
 							return course.toJSON();

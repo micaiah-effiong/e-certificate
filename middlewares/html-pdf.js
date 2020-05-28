@@ -6,8 +6,6 @@ module.exports = function(req, res, next){
 	let link = '/certificate/verify/?key='+req.user.regNo;
 	fs.readFile(require.resolve('../views/index.ejs'), 'utf8', (err, template)=>{
 		if (err) return console.log(err);
-		console.log(req._completedCourse)
-
 		let html = ejs.render(template, {
 			name: req.user.getFullname(),
 			courses: req._completedCourse,
