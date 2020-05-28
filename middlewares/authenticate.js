@@ -55,6 +55,7 @@ module.exports = function (db) {
 			db.user.findByPk(req.cookies.serialized.serialized)
 			.then(user=>{
 				if (!user) return next(errorResponse('Unauthorize', 401));
+				req.user = user
 				return user.generateToken()
 		    .then(token=>{
 		      return {
