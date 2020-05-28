@@ -9,7 +9,7 @@ module.exports = function(req, res, next){
 		let html = ejs.render(template, {
 			name: req.user.getFullname(),
 			courses: req._completedCourse,
-			link: `<a href="${new URL(req.headers.referer).hostname}${link}"> click here to verify certificate </a>`
+			regNo: req.user.regNo/*`<a href="${new URL(req.headers.referer).hostname}${link}"> click here to verify certificate </a>`*/
 		});
 
 		toPdf.create(html, {format: 'A5', orientation: 'landscape'}).toBuffer(function(err, buffer){
