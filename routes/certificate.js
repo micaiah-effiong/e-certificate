@@ -24,7 +24,7 @@ router.get('/download', authToken, stuDetails.completedCourse, pdf, function(req
 
 router.get('/verify', stuDetails.verifyCert, function(req, res){
   res.json({
-    coures: req._user.completedCourse,
+    coures: req._completedCourse,
     user: req.user
   });
 });
