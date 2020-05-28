@@ -31,7 +31,7 @@ app.use('/user', studentRoute);
 
 // routes
 app.get('/', function(req, res){
-	res.sendFile(`${__dirname}/public/certificate.html`);
+	res.sendFile(`${__dirname}/public/index.html`);
 });
 
 /*errors*/
