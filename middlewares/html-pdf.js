@@ -6,11 +6,12 @@ module.exports = function(req, res, next){
 	let link = '/certificate/verify/?key='+req.user.regNo;
 	fs.readFile(require.resolve('../views/index.ejs'), 'utf8', (err, template)=>{
 		if (err) return console.log(err);
+		console.log(req._completedCourse)
 
 		let html = ejs.render(template, {
 			name: req.user.getFullname(),
-			courses: req.user.completedCourse,
-			link: `<a href="${link}"> click here to verify certificate </a>`
+			courses: req._completedCourse,
+			link: `<a href="${new URL(req.headers.referer).hostname}${link}"> click here to verify certificate </a>`
 		});
 
 		toPdf.create(html, {format: 'A5', orientation: 'landscape'}).toBuffer(function(err, buffer){
@@ -24,7 +25,6 @@ module.exports = function(req, res, next){
 					content: buffer
 				}
 			};
-
 			req.userCertBuffer = buffer;
 			next();
 		});
