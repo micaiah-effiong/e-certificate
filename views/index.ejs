@@ -141,43 +141,8 @@
               <form style="float: right;">
                 <% for(n of courses) {%>
                   <div class="form-group">
-                    <label for="design">Graphics Design</label>
-
-                    <%if (n.courseName == 'GD') {%>
+                    <label for="design"><%= n.courseName %></label>
                     <input type="checkbox" checked class="check" disabled>
-                    <%}else{%>
-                    <input type="checkbox" class="check" disabled>
-                    <%}%>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="web">Web Development</label>
-
-                    <%if (n.courseName == 'WD') {%>
-                    <input type="checkbox" checked class="check" disabled>
-                    <%}else{%>
-                    <input type="checkbox" class="check" disabled>
-                    <%}%>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="programming">Programming</label>
-
-                    <%if (n.courseName == 'PR') {%>
-                    <input type="checkbox" checked class="check" disabled>
-                    <%}else{%>
-                    <input type="checkbox" class="check" disabled>
-                    <%}%>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="digital-marketing">Digital Marketing</label>
-
-                    <%if (n.courseName == 'DM') {%>
-                    <input type="checkbox" checked class="check" disabled>
-                    <%}else{%>
-                    <input type="checkbox" class="check" disabled>
-                    <%}%>
                   </div>
                 <%}%>
               </form>
