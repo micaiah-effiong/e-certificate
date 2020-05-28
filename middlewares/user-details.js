@@ -1,11 +1,13 @@
+const errorResponse = require('../handlers/error');
+
 module.exports = function (db) {
 	function getCompletedCourse(req, res, next, queryObj){
 		db.user.findOne({
 			where: queryObj
 		}).then(function(user){
-			if (!user) return res.status(404).send();
+			if (!user) return next(errorResponse('Bad request', 400));
 				user.getCourses().then(function(courses){
-					if (!courses) return res.status(404).send(e);
+					if (!courses) return next(errorResponse('Bad request', 400));
 					req._user = user;
 					req._completedCourse = courses.map(course=>{
 						if(course.toJSON().completed){
@@ -17,7 +19,7 @@ module.exports = function (db) {
 					return e;
 				});
 		}, function(e){
-			res.status(500).send(e);
+			next(e);
 		});
 	}
 
