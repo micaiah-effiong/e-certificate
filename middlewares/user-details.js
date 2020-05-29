@@ -9,11 +9,14 @@ module.exports = function (db) {
 				user.getCourses().then(function(courses){
 					if (!courses) return next(errorResponse('Bad request', 400));
 					req._user = user;
-					req._completedCourse = courses.map(course=>{
-						if(course.toJSON().completed){
-							return course.toJSON();
+					req._completedCourse = []
+					for (let i = 0; i < courses.length; i++) {
+						if(courses[i].toJSON().completed){
+							req._completedCourse.push(courses[i].toJSON());
+						}else{
+							continue;
 						}
-					});
+					}
 					next();
 				}, function(e){
 					return e;

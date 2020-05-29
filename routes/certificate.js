@@ -28,7 +28,7 @@ router.get('/verify', stuDetails.verifyCert, function(req, res){
   res.json({
     success: true,
     data: {
-      coures: req._completedCourse,
+      course: req._completedCourse,
       user
     }
   });
