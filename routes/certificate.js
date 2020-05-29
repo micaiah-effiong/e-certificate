@@ -27,6 +27,7 @@ router.get('/verify', stuDetails.verifyCert, function(req, res){
   user.fullname = req._user.getFullName();
   res.json({
     success: true,
+    count: req._completedCourse.length,
     data: {
       course: req._completedCourse,
       user
