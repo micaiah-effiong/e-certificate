@@ -1,29 +1,33 @@
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 module.exports = function (req, res, next) {
-	if (!req.query.sendToMail
-		|| !req.body.sendMail) return next();
+	jwt.decode(process.env.EMAIL_PASS,
+		process.env.EMAIL_PASS_KEY, (err, pwd)=>{
+		if (!req.query.sendToMail
+			|| !req.body.sendMail) return next();
 
-	const transpoter = nodemailer.createTransport({
-		tls: {rejectUnauthorized: false},
-		service: 'gmail',
-		auth: {
-			user: process.env.EMAIL,
-			pass: process.env.EMAIL_PASS
+		const transpoter = nodemailer.createTransport({
+			tls: {rejectUnauthorized: false},
+			service: 'gmail',
+			auth: {
+				user: process.env.EMAIL,
+				pass: pwd
+			}
+		});
+
+		let message = {
+			from: process.env.APP_ORG,
+			to: req.mailing.to,
+			subject: req.mailing.subject || req.mailing.title,
+			text: req.mailing.text || "",
+			html: req.mailing.html || "",
+			attachments: [req.mailing.attachments] || []
 		}
-	});
-
-	let message = {
-		from: "Micaiah Effiong",
-		to: req.mailing.to,
-		subject: req.mailing.subject || req.mailing.title,
-		text: req.mailing.text || "",
-		html: req.mailing.html || "",
-		attachments: [req.mailing.attachments] || []
-	}
-	transpoter.sendMail(message).then(function(info){
-		next();
-	}).catch(console.error);
+		transpoter.sendMail(message).then(function(info){
+			next();
+		}).catch(console.error);
+	})
 }
 
 /*
