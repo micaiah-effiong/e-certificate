@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>E-certification</title>
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
 
@@ -60,11 +60,21 @@
     form.onsubmit = (event)=>{
       event.preventDefault();
       fetch('/certificate/verify?key='+form.key.value)
-        .then(e=>console.log(e.text()))
-/*        .then(res=>res.json())
+        .then(res=>res.json())
         .then(info=>{
-          report.innerText = info;
-        })*/
+          if (info.success && info.data.course.length > 0) {
+            console.log('worked', info.data);
+            // <info.data.user.fullname> has completed our course on info.course
+            let courseList = info.data.course.map(course=> `${course.courseName}`);
+            report.innerText = `${info.data.user.fullname} has completed our ${listFormat(courseList)} course${(courseList.length > 1)?'s':''}`;
+          }else{
+            console.log('not working');
+            report.innerText = "Verification Error"
+          }
+        })
+    }
+    function listFormat(arr){
+      return arr.reverse().join(', ').replace(/, /, ' and ').split(', ').reverse().join(', ').replace(/([\w ]+) and ([\w ]+)/, ' $2 and $1');
     }
 
   </script>
