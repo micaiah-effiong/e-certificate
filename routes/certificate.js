@@ -23,11 +23,13 @@ router.get('/download', authToken, stuDetails.completedCourse, pdf, function(req
 });
 
 router.get('/verify', stuDetails.verifyCert, function(req, res){
+  let user = req._user.toPublicJSON();
+  user.fullname = req._user.getFullName();
   res.json({
     success: true,
     data: {
       coures: req._completedCourse,
-      user: req.user
+      user
     }
   });
 });

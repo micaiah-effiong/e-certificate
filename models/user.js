@@ -86,7 +86,7 @@ module.exports = function (sequelize, DataType) {
 	});
 
 	// instance methods
-	user.prototype.getFullname = function() {
+	user.prototype.getFullName = function() {
 		return `${this.firstname} ${this.lastname}`;
 	};
 

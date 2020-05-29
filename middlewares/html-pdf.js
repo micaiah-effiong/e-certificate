@@ -7,7 +7,7 @@ module.exports = function(req, res, next){
 	fs.readFile(require.resolve('../views/index.ejs'), 'utf8', (err, template)=>{
 		if (err) return console.log(err);
 		let html = ejs.render(template, {
-			name: req.user.getFullname(),
+			name: req.user.getFullName(),
 			courses: req._completedCourse,
 			regNo: req.user.regNo/*`<a href="${new URL(req.headers.referer).hostname}${link}"> click here to verify certificate </a>`*/
 		});
