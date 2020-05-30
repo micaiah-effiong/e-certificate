@@ -2,12 +2,10 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
 module.exports = function (req, res, next) {
-	console.log('pwd', typeof process.env.EMAIL_PASS, process.env.EMAIL_PASS_KEY,)
+	if (!(req.query.sendToMail
+		|| req.body.sendMail)) return next();
 	jwt.verify(process.env.EMAIL_PASS, process.env.EMAIL_PASS_KEY, (err, pwd)=>{
-		console.log(pwd)
-		if (!req.query.sendToMail
-			|| !req.body.sendMail) return next();
-		
+
 		if (err){
 			res.json({
 				success: false,
@@ -17,7 +15,7 @@ module.exports = function (req, res, next) {
 			return console.log(err)
 		}
 
-		/*const transpoter = nodemailer.createTransport({
+		const transpoter = nodemailer.createTransport({
 			tls: {rejectUnauthorized: false},
 			service: 'gmail',
 			auth: {
@@ -36,7 +34,7 @@ module.exports = function (req, res, next) {
 		}
 		transpoter.sendMail(message).then(function(info){
 			next();
-		}).catch(console.error);*/
+		}).catch(console.error);
 	})
 }
 
