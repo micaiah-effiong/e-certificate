@@ -3,6 +3,9 @@ const errorHandler = (error, req, res, next)=>{
   console.log("Error name: "+error.name);
   console.log("Error code: "+error.code);
   console.log("Error stack: ",error.stack);
+  if (req.url.includes('/assets')) {
+    res.redirect('/login and sign-up.html?success=false');
+  }
   if (error.name == "SequelizeDatabaseError") {
     error.statusCode = 400;
     error.message = "Invalid input";
