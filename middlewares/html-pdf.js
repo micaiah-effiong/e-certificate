@@ -3,13 +3,12 @@ const fs = require('fs');
 const ejs = require('ejs');
 
 module.exports = function(req, res, next){
-	let link = '/certificate/verify/?key='+req.user.regNo;
 	fs.readFile(require.resolve('../views/index.ejs'), 'utf8', (err, template)=>{
 		if (err) return console.log(err);
 		let html = ejs.render(template, {
 			name: req.user.getFullName(),
 			courses: req._completedCourse,
-			regNo: req.user.regNo/*`<a href="${new URL(req.headers.referer).hostname}${link}"> click here to verify certificate </a>`*/
+			regNo: `Validation No.: ${req.user.regNo}`
 		});
 
 		toPdf.create(html, {format: 'A5', orientation: 'landscape'}).toBuffer(function(err, buffer){
