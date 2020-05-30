@@ -23,13 +23,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use('/assets', auth.authToken, express.static(__dirname + '/public'));
-app.use((err, req, res, next)=>{
-	if (!req.url.includes('/assets')) {
-		next()
-	} else {
-		res.redirect('/');
-	}
-});
+
 app.use(express.static(__dirname + '/public'));
 
 // mounting routes
