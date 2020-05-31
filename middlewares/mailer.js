@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const errorResponse = require('../handlers/error');
 
 module.exports = function (req, res, next) {
 	if (!(req.query.sendToMail
@@ -7,12 +8,7 @@ module.exports = function (req, res, next) {
 	jwt.verify(process.env.EMAIL_PASS, process.env.EMAIL_PASS_KEY, (err, pwd)=>{
 
 		if (err){
-			res.json({
-				success: false,
-				error: err,
-				msg: "could not send mail"
-			})
-			return console.log(err)
+			return next(errorResponse('Could not send mail', 500));
 		}
 
 		const transpoter = nodemailer.createTransport({
@@ -32,10 +28,12 @@ module.exports = function (req, res, next) {
 			html: req.mailing.html || "",
 			attachments: [req.mailing.attachments] || []
 		}
-		transpoter.sendMail(message).then(function(info){
+		transpoter.sendMail(message)
+		.then(function(info){
 			next();
-		}).catch(console.error);
-	})
+		})
+		.catch(err=>next(err));
+	});
 }
 
 /*
