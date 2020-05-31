@@ -9,14 +9,7 @@ module.exports = function (db) {
 				user.getCourses().then(function(courses){
 					if (!courses) return next(errorResponse('Bad request', 400));
 					req._user = user;
-					req._completedCourse = []
-					for (let i = 0; i < courses.length; i++) {
-						if(courses[i].toJSON().completed){
-							req._completedCourse.push(courses[i].toJSON());
-						}else{
-							continue;
-						}
-					}
+					req._completedCourse = courses.filter(course=> course.toJSON().completed)
 					next();
 				}, function(e){
 					return e;
