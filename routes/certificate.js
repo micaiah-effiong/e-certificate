@@ -9,20 +9,20 @@ const router = express.Router();
 
 router.use(express.static(path.join(__dirname, '..', 'public')));
 
-router.get('/', function(req, res){
+router.get('/', (req, res)=>{
   res.sendFile(path.join(__dirname, '..', 'public', 'certificate.html'));
 });
 
-router.get('/get', authToken, stuDetails.completedCourse, pdf, mailer, function(req, res){
+router.get('/get', authToken, stuDetails.completedCourse, pdf, mailer, (req, res)=>{
   res.send(req.userCertBuffer);
 });
 
 /*may not be used*/
-router.get('/download', authToken, stuDetails.completedCourse, pdf, function(req, res){
+router.get('/download', authToken, stuDetails.completedCourse, pdf, (req, res)=>{
   res.download(req.userCertBuffer);
 });
 
-router.get('/verify', stuDetails.verifyCert, function(req, res){
+router.get('/verify', stuDetails.verifyCert, (req, res)=>{
   let user = req._user.toPublicJSON();
   user.fullname = req._user.getFullName();
   res.json({
