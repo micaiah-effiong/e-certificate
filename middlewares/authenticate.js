@@ -2,13 +2,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const errorResponse = require('../handlers/error');
 
-module.exports = function (db) {
+module.exports = (db)=>{
 	let auth = {
 		authEmail: function(req, res, next){
 			db
 				.user
 				.findByEmail(req.body.email.toLowerCase())
-				.then(function(user){
+				.then(user=>{
 					if (!user) return next(errorResponse('Invalid Credentials', 401));
 					req.user = user;
 					next();
@@ -20,7 +20,7 @@ module.exports = function (db) {
 			db
 				.user
 				.findOne({where: { id }})
-				.then(function(user){
+				.then(user=>{
 					if (!user) return next(errorResponse('Invalid Credentials', 401));
 					req.user = user;
 					next();
