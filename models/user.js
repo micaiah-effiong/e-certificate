@@ -94,7 +94,10 @@ module.exports = function (sequelize, DataType) {
 		const self = this;
 		return new Promise(function(resolve, reject){
 			const payload = JSON.stringify(self.toPublicJSON());
-			jwt.sign({data: payload}, process.env.PRIVATE_KEY, {expiresIn: '10s'}, (err, token)=>{
+			jwt.sign(
+			{data: payload},
+			process.env.PRIVATE_KEY, {expiresIn: '10s'},
+			(err, token)=>{
 				if(err) return reject(err);
 				resolve(token);
 			});
@@ -116,8 +119,10 @@ module.exports = function (sequelize, DataType) {
 	user.createRegKey = function(req){
 		return new Promise(function(resolve, reject){
 			let info = {...req.body};
-			bcrypt.genSalt(10).then(s=>{
-				bcrypt.hash(info.email+info.password, s)
+			bcrypt.genSalt(10)
+				.then(s=>{
+					return bcrypt.hash(info.email+info.password, s);
+				})
 				.then(result=>{
 					let _regNo = result.split('').reverse().join('').replace(/[-|?|\|/|.]/g,'');
 					req.body.regNo = _regNo;
@@ -126,10 +131,6 @@ module.exports = function (sequelize, DataType) {
 				.catch(err=>{
 					reject(err);
 				});
-			})
-			.catch(err=>{
-				reject(err);
-			});
 		});
 	}
 
@@ -139,9 +140,8 @@ module.exports = function (sequelize, DataType) {
 				.then(function(user){
 					if (!user) return reject();
 					resolve(user);
-				}, function(err){
-					reject(err);
-				});
+				})
+				.catch(err=>next(err));
 		});
 	}
 
