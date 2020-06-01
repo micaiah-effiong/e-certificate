@@ -141,7 +141,7 @@ module.exports = function (sequelize, DataType) {
 					if (!user) return reject();
 					resolve(user);
 				})
-				.catch(err=>next(err));
+				.catch(err=>reject(err));
 		});
 	}
 
