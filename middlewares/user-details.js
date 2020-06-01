@@ -1,28 +1,29 @@
 const errorResponse = require('../handlers/error');
 
-module.exports = function (db) {
+module.exports = (db)=>{
 	function getCompletedCourse(req, res, next, queryObj){
 		db.user.findOne({
 			where: queryObj
-		}).then(function(user){
-			if (!user) return next(errorResponse('Bad request', 400));
-				user.getCourses().then(function(courses){
-					if (!courses) return next(errorResponse('Bad request', 400));
-					req._user = user;
-					req._completedCourse = courses.filter(course=> course.toJSON().completed)
-					next();
-				}, function(e){
-					return e;
-				});
-		}, function(e){
-			next(e);
-		});
+		})
+			.then(user=>{
+				if (!user) return next(errorResponse('Bad request', 400));
+				req._user = user;
+				return user.getCourses();
+			})
+			.then(courses=>{
+				if (!courses) return next(errorResponse('Bad request', 400));
+				req._completedCourse = courses.filter(course=> course.toJSON().completed);
+				next();
+			})
+			.catch(err=>next(err));
 	}
 
 	return {
 		completedCourse: function(req, res, next){
 			if (!(req.query.email || req.body.email)) {
-				return res.status(400).json({error: 'Bad request'})
+				return res
+					.status(400)
+					.json({error: 'Bad request'});
 			}
 
 			let email = req.query.email || req.body.email;
@@ -30,7 +31,9 @@ module.exports = function (db) {
 		},
 		verifyCert: function(req, res, next){
 			if (!(req.query.key || req.body.key)) {
-				return res.status(400).json({error: 'invalid request'})
+				return res
+					.status(400)
+					.json({error: 'invalid request'});
 			}
 
 			let id = req.query.key || req.body.key;
