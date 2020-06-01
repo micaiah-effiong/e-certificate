@@ -29,7 +29,7 @@ module.exports = function (req, res, next) {
 			attachments: [req.mailing.attachments] || []
 		}
 		transpoter.sendMail(message)
-		.then(function(info){
+		.then(info=>{
 			next();
 		})
 		.catch(err=>next(err));
