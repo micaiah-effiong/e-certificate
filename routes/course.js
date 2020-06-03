@@ -42,6 +42,7 @@ router.post('/', (req, res, next)=>{
 
       // checking  for already registered course
       if(result.length > 0) return next(errorResponse('Course already registered', 400));
+      req.body.email = req.user.get('email');
       db.course.create(req.body)
         .then(course=>course)
         .then(course=>{
