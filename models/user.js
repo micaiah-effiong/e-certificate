@@ -137,7 +137,7 @@ module.exports = function (sequelize, DataType) {
 	user.findByEmail = function(email){
 		return new Promise(function(resolve, reject){
 			user.findOne({where:{ email }})
-				.then(function(user){
+				.then(user=>{
 					if (!user) return reject();
 					resolve(user);
 				})
