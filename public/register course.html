@@ -33,8 +33,7 @@
     </main>
   </div>
   <div class="content">
-    <form method="POST" action="/user/course">
-      <input type="email" name="email" placeholder="email" required>
+    <form method="POST" action="/user/course" name="register course">
       <select name="courseCode" required>
         <option selected disabled>Select a course</option>
         <option value="DM">Digital Marketing</option>
@@ -49,6 +48,7 @@
       </select>
       <input type="submit">
     </form>
+    <p  id="regInfo"></p>
   </div>
   <footer class="footer">
     <div style="text-align: center;">
@@ -64,5 +64,43 @@
     </div>
     <div class="design-1"></div>
   </footer>
+    <script type="text/javascript">
+    // register
+    document["register course"].onsubmit = event=>{
+      event.preventDefault();
+      let { target } = event;
+      let { elements } = target;
+      let reqBody = {}
+      for (let i = 0; i < elements.length; i++) {
+        if (elements.item(i).name) {
+          reqBody[elements.item(i).name] = elements.item(i).value
+        }else{
+          continue;
+        }
+      }
+      fetch(target.action,
+        {
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },
+          body: JSON.stringify(reqBody),
+          method: "POST"
+        }
+      )
+        .then(res=>res.json())
+        .then(info=>{
+          let { data, success } = info;
+          if (info.success) {
+            let regInfo = document.getElementById('regInfo')
+            regInfo.innerText = "you have successfully registered your course";
+            console.log(data);
+          }
+        })
+        .catch(err=>{
+          regInfo.innerText = "A something went wrong \n registeration was no successful";
+          console.log(err);
+        })
+    }
+  </script>
 </body>
 </html>
