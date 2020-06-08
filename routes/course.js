@@ -35,6 +35,9 @@ router.post("/", (req, res, next) => {
   let { body } = req;
   body.courseName = db.course.getCourseNameFromCourseCode(body.courseCode);
 
+  // validate input
+  if (!body.courseName) return next(errorResponse("Bad Request", 400));
+
   req.user.getCourses().then((userCourses) => {
     let result = userCourses.filter(
       (course) => course.courseName == body.courseName
@@ -43,15 +46,11 @@ router.post("/", (req, res, next) => {
     // checking  for already registered course
     if (result.length > 0)
       return next(errorResponse("Course already registered", 400));
+
     body.email = req.user.get("email");
-    db.course
-      .create(body)
-      .then((course) => course)
-      .then((course) => {
-        return req.user.addCourse(course).then(() => {
-          return course.reload();
-        });
-      })
+
+    req.user
+      .createCourse(body)
       .then((course) => {
         res.json({
           success: true,
