@@ -82,14 +82,15 @@ router.put("/completed/:userId/:courseId", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.put("/completed/:userId/:courseId", (req, res, next) => {
+router.put("/:userId/:courseId", (req, res, next) => {
   let { body } = req;
+  delete body.courseName;
+  if (body.courseCode) {
+    body.courseName = db.course.getCourseNameFromCourseCode(body.courseCode);
+  }
   let { userId, courseId } = req.params;
   db.course
-    .update(
-      { completed: true, dateCompleted: Date.now() },
-      { where: { id: courseId } }
-    )
+    .update(body, { where: { id: courseId } })
     .then((course) => {
       res.json({
         success: true,
