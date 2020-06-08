@@ -82,4 +82,34 @@ router.put("/completed/:userId/:courseId", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+router.put("/completed/:userId/:courseId", (req, res, next) => {
+  let { body } = req;
+  let { userId, courseId } = req.params;
+  db.course
+    .update(
+      { completed: true, dateCompleted: Date.now() },
+      { where: { id: courseId } }
+    )
+    .then((course) => {
+      res.json({
+        success: true,
+        data: course,
+      });
+    })
+    .catch((err) => next(err));
+});
+
+router.delete("/:userId/:courseId", (req, res, next) => {
+  let { body } = req;
+  let { userId, courseId } = req.params;
+  db.course
+    .destroy({ where: { id: courseId } })
+    .then((course) => {
+      res.json({
+        success: true,
+        data: course,
+      });
+    })
+    .catch((err) => next(err));
+});
 module.exports = router;
