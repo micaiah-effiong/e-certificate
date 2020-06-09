@@ -11,6 +11,9 @@
   "keywords": [
     "certification"
   ],
+  "engines": {
+    "node": ">=8.0.0 <12.16.3"
+  },
   "author": "Micaiah Effiong",
   "license": "MIT",
   "dependencies": {
