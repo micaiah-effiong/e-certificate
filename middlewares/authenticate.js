@@ -83,8 +83,8 @@ module.exports = (db) => {
 		},
 		authorize: function (...role) {
 			return (req, res, next) => {
-				let { userRole } = req.user;
-				if (!role.includes(userRole))
+				let { role } = req.user;
+				if (!role.includes(role))
 					return next(errorResponse("Unauthorized", 401));
 				next();
 			};
