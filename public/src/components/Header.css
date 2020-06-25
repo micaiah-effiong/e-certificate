@@ -1,0 +1,13 @@
+div > .navbar {
+    background-color:#fff !important;
+}
+.nav-btn {
+    border-radius: none !important;
+    background-color: #9B51E0;
+    color: #fff;
+}
+
+.nav-btn:hover {
+transform: translateY(-3px);
+background-color:#fff;
+}
