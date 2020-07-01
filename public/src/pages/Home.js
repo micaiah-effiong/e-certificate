@@ -58,10 +58,18 @@ class Home extends Component {
                 </section>
                 <section>
                     <div className="container">
-                        <div className="col">
-
+                      
+                    </div>
+                </section>
+                <section className="companies">
+                    <div>
+                        <div>
+                            <div>
+                                
+                            </div>
                         </div>
                     </div>
+
                 </section>
 
                 
