@@ -66,6 +66,7 @@ class Home extends Component {
                 <section className="section companies">
                     <div className="container">
                         <h2>Trusted By</h2>
+                        <p>"The company is a priceless tool that helps us drive sales <br></br> and support through every step of the funnel"</p>
                         <div className="row">
                             <div className="col-md-4">
                                 <img className="brand-image" src={brand1} alt="brand one"/>                        
