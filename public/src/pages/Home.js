@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import cert from '../img/cert.svg';
 import './Home.css';
+import brand1 from  '../img/br1.png';
+import brand2 from  '../img/br5.png';
 
 
 class Home extends Component {
@@ -61,12 +63,20 @@ class Home extends Component {
                       
                     </div>
                 </section>
-                <section className="companies">
-                    <div>
-                        <div>
-                            <div>
-                                
+                <section className="section companies">
+                    <div className="container">
+                        <h2>Trusted By</h2>
+                        <div className="row">
+                            <div className="col-md-4">
+                                <img className="brand-image" src={brand1} alt="brand one"/>                        
                             </div>
+                            <div className="col-md-4">
+                                <img className="brand-image" src={brand2} alt="brand one"/>                        
+                            </div>
+                            <div className="col-md-4">
+                                <img className="brand-image" src={brand1} alt="brand one"/>                        
+                            </div>
+
                         </div>
                     </div>
 
