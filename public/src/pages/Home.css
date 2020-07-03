@@ -36,7 +36,7 @@
 
 .cta-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0px 3px 10px 0px gray;
+    box-shadow: 0px 3px 10px 0px rgba(122, 122, 122, 0.452);
 }
 
 .steps {
