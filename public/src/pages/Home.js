@@ -8,7 +8,7 @@ import brand2 from  '../img/br5.png';
 class Home extends Component {
     render(){
         return(
-            <div>
+            <div className="section">
                 <section>
 
                     <div className="container">          
@@ -16,10 +16,12 @@ class Home extends Component {
                             <div className="col-md-6 col-sm-12">
                                 <h1> Redefine <br></br>Your Certification <br></br> Experience</h1>
                                 <p>Easiest way to get certified</p>
-                                <button className="cta-btn">Get Your Certificate</button>
+                                <div className="btn-wrapper">
+                                    <button className="cta-btn">Get Your Certificate</button>
+                                </div>
                             </div>
                             <div className="col-md-6 col-sm-12">
-                                <img src={cert} className="img-fluid" width="500" alt="landing"/>                       
+                                <img src={cert} className="banner-img img-fluid" width="500" alt="landing"/>                       
                             </div>
                         </div>
                         
