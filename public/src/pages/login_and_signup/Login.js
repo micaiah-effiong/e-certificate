@@ -28,10 +28,18 @@ class Login extends Component {
                                     <input type="email"/>
                                     <label>Password</label>
                                     <input type="password"/>
-                                    <input type="checkbox"/>Remember Me <br></br>
-                                    <button  type="submit">LOG IN</button>
-                                    <p>Or</p>
-                                    <button type="submit">Login with Google</button>
+                                    <div className="checkbox-div">
+                                        <input   type="checkbox" name="remember me" /> 
+                                    </div>
+                                    
+                                    <br></br>
+                                    <div style={{textAlign:'center'}}>
+                                        <button className="login-btn" type="submit">Login</button>
+                                        <p>Or</p>
+                                        <button className="google-btn" type="submit">Login With Google</button>
+                                        
+                                    </div>
+                            
                                     
 
                                 </form>
