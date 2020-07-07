@@ -1,28 +1,66 @@
-/* .card {
-    position: absolute;
-width: 504px;
-height: 645px;
-left: 800px;
-top: 189px;
-
-background: #FFFFFF;
-box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-} */
 
 * {
     width: 100%;
 }
 
+.side-bar {
+    display: flex;
+    flex-direction:column;
+    justify-content: stretch;
+    align-items: flex-end;
+}
 .side-bar h2 {
     text-align:left;
     font-weight: bold;
+    color: #fff;
 }
 
 .side-bar h1 {
     text-align: left;
+    align-self: flex-end;
 }
+
 .card {
+    margin: 40px auto;
     background: #FFFFFF;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
     width:fit-content;
+    text-align: left;
+    padding: 50px;
+    border-radius: 0px;
 }
+
+.card h4 {
+    font-weight: bold;
+}
+
+.card input {
+    background-color: #dfdfdf !important;
+    border:1px solid #dfdfdf !important;
+    padding: 10px;
+    border-radius: 0px;
+    width: 100%;
+}
+
+label{
+    display: block;
+    color: #c4c4c4;
+    font-size: .9rem;
+    margin-top: 4%;
+ }
+ 
+ form input::placeholder, textarea::placeholder {
+    font-size: .8rem;
+    /* font-style: italic;
+    font-family: inherit; */
+ }
+ 
+ form input:focus,form input:active {
+    border:1px solid #dfdfdf !important;
+    background-color: #dfdfdf !important;
+    box-shadow: none !important;
+ }
+
+ .card button[type="submit"] {
+     width: 50%;
+ }
