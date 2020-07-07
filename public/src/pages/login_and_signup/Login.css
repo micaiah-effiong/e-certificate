@@ -49,11 +49,7 @@ label{
     margin-top: 4%;
  }
  
- form input::placeholder, textarea::placeholder {
-    font-size: .8rem;
-    /* font-style: italic;
-    font-family: inherit; */
- }
+
  
  form input:focus,form input:active {
     border:1px solid #dfdfdf !important;
@@ -62,5 +58,14 @@ label{
  }
 
  .card button[type="submit"] {
-     width: 50%;
+     width:fit-content;
+    padding: 10px 32px;
+     font-size: .8rem;
+     margin: 0 auto;
+ }
+ 
+ .login-btn {
+     background-color: #9B51E0;
+     border: 1px solid #9B51E0;
+     color:#fff;
  }
