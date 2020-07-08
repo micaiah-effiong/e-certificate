@@ -5,6 +5,10 @@
     overflow-y: hidden;
 }
 
+.sidebar-wrap {
+    background-color:#5F07B1;
+    height:100vh;
+}
 .side-bar {
     display: flex;
     flex-direction:column;
@@ -106,3 +110,25 @@ label{
  .foot-register-link  a {
      color: #5F07B1
  }
+
+ @media only screen and (max-width: 768px) {
+     *{
+        overflow-x: hidden;
+        overflow-y: hidden;
+     }
+    /* .sidebar-wrap {
+        display: none;
+    } */
+    .col-md-9 {
+        display:block;
+        height: 100vh;
+        width: 100vw;
+        
+    }
+    .card {
+        width: fit-content;
+    }
+}
+
+
+
