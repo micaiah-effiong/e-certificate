@@ -7,7 +7,7 @@ class Login extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-3" style={{backgroundColor:'#5F07B1',height:'100vh'}}>
+                    <div className="d-none col-lg-3 d-lg-block sidebar-wrap" >
                         <div className="container">
                             <div className="side-bar">
                                 <h2>Taking a step<br></br> to simplicity</h2>
@@ -18,16 +18,16 @@ class Login extends Component {
 
 
                     </div> 
-                    <div className="col-md-9" style={{backgroundColor:'#9b51e0'}}>
+                    <div className="col-12 col-lg-9 col-sm-12 col-xs-12" style={{backgroundColor:'#9b51e0'}}>
                         <div className="container">
                         <a href="#" className="fa fa-arrow-left back-home-link"> Back to Home</a>
                             <div className="card">
                                 <h4>Login</h4>
 
                                 <form method="#" >
-                                    <label>Email</label>
+                                    <label htmlFor="email">Email</label>
                                     <input type="email"/>
-                                    <label>Password</label>
+                                    <label htmlFor="password">Password</label>
                                     <input type="password"/>
                                     <div className="checkbox-div">
                                         <input type="checkbox" name="remember me" />Remember me 
