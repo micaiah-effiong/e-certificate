@@ -1,0 +1,14 @@
+.card-two {
+    margin: 10px auto;
+}
+
+.register-btn {
+    width:fit-content;
+     font-size: .8rem;
+     font-weight: bold;
+     background-color: #9B51E0;
+     border: 1px solid #9B51E0;
+     color:#fff;
+     padding: 10px 92px;
+     margin: 10px auto;
+}
