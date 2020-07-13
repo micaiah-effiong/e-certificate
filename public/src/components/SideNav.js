@@ -5,25 +5,17 @@ import './sidenav.css'
 const SideNav = ()=>{
     return (
         <div className="container-fluid">
-            <div className="row">
-                <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-                    <div className="sidebar-sticky">
-                        <ul className="nav flex-column">
-                            <li className="nav-item">
-                                <a className="nav-link" href="">
-                                <span data-feather="file"></span>
-                                Orders
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="">
-                                <span data-feather="file"></span>
-                                Orders
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+           <div className="sidenav">
+                <h2>Welcome</h2>
+                <a href="#">Courses</a>
+                <a href="#">Get Certificate</a>
+                <a href="#">Account</a>
+                <a href="#">Support</a>
+                <a href="#">Contact</a>
+            </div>
+            
+                <div className="main">
+            ...
             </div>
         </div>
     )
