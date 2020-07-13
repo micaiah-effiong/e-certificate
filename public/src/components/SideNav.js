@@ -14,9 +14,22 @@ const SideNav = ()=>{
                 <a href="#">Contact</a>
             </div>
             
-                <div className="main">
-            ...
-            </div>
+            <div className="menu">
+                <input type="checkbox" id="check" />
+                <label for="check" class="button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+                <nav>
+                    <a href="#">Element 1</a>
+                    <a href="#">Element 2</a>
+                    <a href="#">Element 3</a>
+                </nav>
+            </div>	
+
+
+           
         </div>
     )
 }
