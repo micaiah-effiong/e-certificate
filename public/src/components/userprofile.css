@@ -1,0 +1,94 @@
+ 
+.card {
+    width: fit-content;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    padding:20px;
+    justify-content: space-between;
+
+}
+.dashboard-header {
+    width:100%;
+    padding:20px;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow-x: hidden;
+    color: #c4c4c4;
+}
+
+.avatar-btn-wrap {
+    position: relative;
+}
+ 
+.vl {
+    border-left: 1px solid #c4c4c4;
+    height: 200px;
+    padding:2px 10px 2px 10px;
+    /* position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top:0; */
+}
+
+.fake-btn {
+  
+    display:block;
+    margin:10px auto;
+    background-color: #9B51E0;
+    color: #fff;
+    border: 1px solid #9B51E0;
+    padding: 10px 20px 10px 20px;
+}
+
+/* input[type="file"] {
+    position: relative;
+    top:0px;
+    top: 7px;
+    left: 99px;;
+    display: block;
+    margin: 10px auto;
+    opacity:0;
+    filter: alpha(opacity= 0);
+    z-index: 2;
+} */
+
+@media only screen and (max-width:768px) {
+    .card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .vl {
+        display:none;
+    }
+}
+
+
+
+.avatar-section {
+    padding: 2px 20px 2px 2px;
+}
+
+
+/* style for the form */
+
+
+label{
+    display: block;
+    text-align: left;
+    color: #c4c4c4;
+    font-size:.9rem;
+    margin-top: 4%;
+ }
+
+ .card input[type="email"],
+input[type="text"]
+ {
+    background-color: #dfdfdf !important;
+    border:1px solid #dfdfdf !important;
+    padding: 10px;
+    border-radius: 0px;
+    width: 100%;
+    
+}
