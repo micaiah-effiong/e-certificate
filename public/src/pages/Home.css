@@ -1,0 +1,127 @@
+* {
+    padding: 0 ;
+    margin: 0 ;
+}
+
+.section {
+	margin:7% 0% 7% 0%;
+}
+.cert-sect {
+    padding: 0 !important ;
+    margin: 0 !important;
+}
+.banner {
+    text-align:left;
+    margin: 50px;
+}
+.banner h1{
+    font-weight: bold;
+}
+
+.banner p {
+    color:gray;
+    margin-top: 7%;
+}
+
+.cta-btn {
+    background-color: #9B51E0;
+    color: #fff;
+    border: 1px solid #9B51E0;
+    padding:7px;
+    position: relative;
+    bottom: 0;
+    top: 50px;
+    transition: .5s ease-in-out;
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 3px 10px 0px rgba(122, 122, 122, 0.452);
+}
+
+.steps {
+    background-color: #e5e5e5;
+    padding:47px;
+}
+
+.steps h2 {
+    font-weight: bold;
+    margin:30px;
+}
+
+.step h1 {
+    font-size:3rem;   
+}
+.step h4 {
+    font-weight: bold;
+}
+
+
+  .brand-image {
+	-webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
+.companies h2 {
+	font-weight: bold;
+	padding:50px;
+
+}
+
+.companies p {
+	padding:20px;
+}
+
+/* media queries */
+
+
+@keyframes bounce {
+
+	0% {
+		transform: translateY(0);
+	}
+
+
+	100% {
+		transform: translateY(20px);
+	}
+
+}
+
+@media only screen and (max-width:767px) {
+	.banner h1, p {
+		text-align: center;
+	}
+
+	.banner-img {
+		display: none;
+	}
+	
+	.cta-btn {
+		display: inline-block;
+		position:relative;
+		top:0;
+		transform: translateY(-3px);
+		box-shadow: 0px 3px 10px 0px rgba(122, 122, 122, 0.452);
+		animation:bounce 2s alternate ease-in-out infinite ;	
+	}
+
+	.brand-image {
+		margin:17px;
+	}
+	.step {
+		margin:17px;
+	}
+	.btn-wrapper {
+		text-align: center;
+	}
+
+}
+

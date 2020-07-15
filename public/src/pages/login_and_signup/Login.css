@@ -1,0 +1,134 @@
+
+* {
+    
+    box-sizing: border-box;
+    overflow-y: hidden;
+}
+
+.sidebar-wrap {
+    background-color:#5F07B1;
+    height:100vh;
+}
+.side-bar {
+    display: flex;
+    flex-direction:column;
+    justify-content: stretch;
+    
+}
+.side-bar h2 {
+    text-align:left;
+    font-weight: bold;
+    color: #fff;
+}
+
+.side-bar h1 {
+    text-align: left;
+    position:absolute;
+    bottom: 0;
+    color:#fff;
+}
+
+.card {
+    
+    margin: 40px auto;
+    background:#fff;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    width:30vw;
+    text-align: left;
+    padding: 50px;
+    border-radius: 0px;
+}
+
+.card h4 {
+    font-weight: bold;
+}
+
+.card input[type="email"],
+input[type="password"] {
+    background-color: #dfdfdf !important;
+    border:1px solid #dfdfdf !important;
+    padding: 10px;
+    border-radius: 0px;
+    width: 100%;
+    
+}
+
+input[type="checkbox"]{
+    background:#fff;
+}
+.checkbox-div {
+    color: #c4c4c4;
+}
+
+label{
+    display: block;
+    color: #c4c4c4;
+    font-size:.9rem;
+    margin-top: 4%;
+ }
+ 
+
+ 
+ form input:focus,form input:active {
+    border:1px solid #dfdfdf !important;
+    background-color: #dfdfdf !important;
+    box-shadow: none !important;
+ }
+
+ .card button[type="submit"] {
+     width:fit-content;
+    /* padding: 10px 32px; */
+     font-size: .8rem;
+     margin: 0 auto;
+     font-weight: bold;
+ }
+ 
+ .login-btn {
+     background-color: #9B51E0;
+     border: 1px solid #9B51E0;
+     color:#fff;
+     padding: 10px 92px;
+ }
+
+ .google-btn {
+     background:#fff;
+     color: #000;
+     border:1px solid #000;
+     padding: 10px 50px;
+ }
+
+ .back-home-link {
+    color:#fff;
+    padding: 5px;
+    /* font-family: 'Poppins', sans-serif; */
+ }
+
+ .foot-register-link {
+     text-align: center;
+     color: #fff;
+ }
+ .foot-register-link  a {
+     color: #5F07B1
+ }
+
+ @media only screen and (max-width: 768px) {
+     *{
+        overflow-x: hidden;
+        overflow-y: hidden;
+     }
+    /* .sidebar-wrap {
+        display: none;
+    } */
+    .col-md-9 {
+        display:block;
+        height: 100vh;
+        width: 100vw;
+        
+    }
+    .card {
+        width: fit-content;
+    }
+}
+
+
+
