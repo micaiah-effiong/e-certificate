@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node-dev index.js",
-    "seed": "node seeder/seeder.js -i -a"
+    "seed": "node seeder/seeder.js -i -a",
+    "test": "mocha"
   },
   "keywords": [
     "certification"
@@ -37,5 +38,9 @@
     "semi": true,
     "singleQuote": false,
     "useTabs": false
+  },
+  "devDependencies": {
+    "node-dev": "^5.0.0",
+    "sequelize-cli": "^6.2.0"
   }
 }
