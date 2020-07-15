@@ -11,7 +11,7 @@ const Userprofile =()=>{
             <SideNav/>
             <div className="main">
 
-                <div className="dashboard-header">
+                <div className="dashboard-header" style={{backgroundColor:'#fff',overflow:'hidden'}}>
                     <p>User Profile</p>
                 </div>
                  
