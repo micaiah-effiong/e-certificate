@@ -1,8 +1,8 @@
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
-const errorResponse = require("../handlers/error");
+const { errorResponse } = require("../handlers/index");
 
-module.exports = function (req, res, next) {
+function mailer(req, res, next) {
   if (!(req.query.sendToMail || req.body.sendToMail)) return next();
 
   const transpoter = nodemailer.createTransport({
@@ -43,4 +43,6 @@ module.exports = function (req, res, next) {
       next();
     })
     .catch((err) => next(err));
-};
+}
+
+module.exports = () => mailer;

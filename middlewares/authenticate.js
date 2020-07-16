@@ -1,9 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const errorResponse = require("../handlers/error");
+const { errorResponse } = require("../handlers/index");
 
 module.exports = (db) => {
   let auth = {
+    name: "auth",
     authEmail: function (req, res, next) {
       db.user
         .findByEmail(req.body.email.toLowerCase())

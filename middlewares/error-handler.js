@@ -1,10 +1,10 @@
-const errorHandler = (error, req, res, next)=>{
-  console.log("Error message: "+error.message,);
-  console.log("Error name: "+error.name);
-  console.log("Error code: "+error.code);
-  console.log("Error stack: ",error.stack);
-  if (req.url.includes('/assets')) {
-    res.redirect('/login and sign-up.html?success=false');
+const errorHandler = (error, req, res, next) => {
+  console.log("Error message: " + error.message);
+  console.log("Error name: " + error.name);
+  console.log("Error code: " + error.code);
+  console.log("Error stack: ", error.stack);
+  if (req.url.includes("/assets")) {
+    res.redirect("/login and sign-up.html?success=false");
   }
   if (error.name == "SequelizeDatabaseError") {
     error.statusCode = 400;
@@ -14,8 +14,8 @@ const errorHandler = (error, req, res, next)=>{
   res.status(error.statusCode || 500).json({
     success: false,
     error: error.name,
-    msg: error.message
-  }); 
-}
+    msg: error.message,
+  });
+};
 
-module.exports = errorHandler;
+module.exports = () => errorHandler;
