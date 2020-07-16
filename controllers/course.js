@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const db = require("../models/index");
 const auth = require("../middlewares/authenticate")(db);
 const stuDetails = require("../middlewares/user-details")(db);
-const errorResponse = require("../handlers/error");
+const { errorResponse } = require("../handlers/index");
+const midtest = require("../middlewares/index");
 
 /*let control = {
 

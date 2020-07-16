@@ -1,6 +1,6 @@
 const db = require("../models/index");
 const stuDetails = require("../middlewares/user-details")(db);
-const errorResponse = require("../handlers/error");
+const { errorResponse } = require("../handlers/index");
 
 module.exports = function (db) {
   return {
