@@ -44,6 +44,7 @@
     "useTabs": false
   },
   "devDependencies": {
+    "mocha": "^8.0.1",
     "node-dev": "^5.0.0",
     "sequelize-cli": "^6.2.0"
   }
