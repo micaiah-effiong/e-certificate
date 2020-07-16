@@ -7,11 +7,21 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3300;
 const ejs = require("ejs");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const FileStore = require("session-file-store")(session);
+const passport = require("passport");
 const db = require("./models/index");
 const stuDetails = require("./middlewares/user-details")(db);
 const errorHandler = require("./middlewares/error-handler.js");
 const auth = require("./middlewares/authenticate")(db);
 const indexRouter = require("./routes/index");
+let fileStoreOptions = {};
+const sess = {
+	secret: `${process.env.SESSION_SECRET}`,
+	store: new FileStore(fileStoreOptions),
+	resave: false,
+	saveUninitialized: false,
+};
 
 // template engine set up
 app.set("view engine", "ejs");
@@ -21,6 +31,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/assets", auth.authToken, express.static(__dirname + "/public"));
+app.use(session(sess));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(__dirname + "/public"));
 
