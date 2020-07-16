@@ -43,7 +43,17 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.user.hasMany(db.course);
-db.course.belongsTo(db.user);
+db.user.hasMany(db.student);
+db.user.hasMany(db.admin);
+db.user.hasMany(db.institution);
+db.student.belongsTo(db.user);
+db.admin.belongsTo(db.user);
+db.institution.belongsTo(db.user);
+
+db.institution.hasMany(db.course);
+db.course.belongsTo(db.institution);
+
+db.student.belongsToMany(db.course, { through: db.student_course });
+db.course.belongsToMany(db.student, { through: db.student_course });
 
 module.exports = db;
