@@ -10,8 +10,10 @@ passport.use(
     },
     async function (email, password, done) {
       let user = await db.user.findOne({ where: { email } });
-      if (!user) return done(null, false);
-      if (!(await user.verifyPassword(password))) return done(null, false);
+      if (!user)
+        return done(null, false, { message: "incorrect email or password" });
+      if (!(await user.verifyPassword(password)))
+        return done(null, false, { message: "incorrect email or password" });
       return done(null, user);
     }
   )

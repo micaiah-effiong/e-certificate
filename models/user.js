@@ -69,6 +69,10 @@ module.exports = function (sequelize, DataType) {
     return `${this.firstname} ${this.lastname}`;
   };
 
+  user.prototype.verifyPassword = async function (val) {
+    return await bcrypt.compare(val, this.hash);
+  };
+
   user.prototype.generateToken = function () {
     const self = this;
     return new Promise(function (resolve, reject) {
