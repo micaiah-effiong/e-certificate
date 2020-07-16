@@ -11,9 +11,7 @@ const db = require("./models/index");
 const stuDetails = require("./middlewares/user-details")(db);
 const errorHandler = require("./middlewares/error-handler.js");
 const auth = require("./middlewares/authenticate")(db);
-const authRoute = require("./routes/auth");
-const certRoute = require("./routes/certificate");
-const studentRoute = require("./routes/user");
+const indexRouter = require("./routes/index");
 
 // template engine set up
 app.set("view engine", "ejs");
@@ -27,9 +25,7 @@ app.use("/assets", auth.authToken, express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/public"));
 
 // mounting routes
-app.use("/auth", authRoute);
-app.use("/certificate", certRoute);
-app.use("/user", studentRoute);
+app.use("/", indexRouter);
 
 // routes
 app.get("/", function (req, res) {

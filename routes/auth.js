@@ -6,7 +6,7 @@ const db = require("../models/index");
 const auth = require("../middlewares/authenticate")(db);
 const pdf = require("../middlewares/html-pdf");
 const stuDetails = require("../middlewares/user-details")(db);
-const errorResponse = require("../handlers/error");
+const { errorResponse } = require("../handlers/index");
 const courseRoute = require("../routes/course");
 const router = express.Router();
 
