@@ -17,7 +17,7 @@ const auth = require("./middlewares/authenticate")(db);
 const indexRouter = require("./routes/index");
 let fileStoreOptions = {};
 const sess = {
-	secret: `${process.env.SESSION_SECRET}`,
+	secret: `secret`,
 	store: new FileStore(fileStoreOptions),
 	resave: false,
 	saveUninitialized: false,
