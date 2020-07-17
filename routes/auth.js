@@ -13,6 +13,6 @@ const router = express.Router();
 
 router.get("/logout", logout);
 router.post("/register", register);
-router.post("/login", login);
+router.post("/login", passport.authenticate("local"), login);
 
 module.exports = router;
