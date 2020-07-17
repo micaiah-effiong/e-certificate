@@ -22,42 +22,12 @@ module.exports = function (sequelize, DataType) {
         defaultValue: "user",
         values: ["student", "institution", "admin"],
       },
-      password: {
-        type: DataType.VIRTUAL,
-        allowNull: false,
-        valitade: {
-          len: [6, 100],
-        },
-        set: function (value) {
-          console.log("value", value);
-          let salt = bcrypt.genSaltSync(10);
-          let hash = bcrypt.hashSync(value, salt);
-          this.setDataValue("password", value);
-          this.setDataValue("salt", salt);
-          this.setDataValue("hash", hash);
-        },
-      },
-      salt: {
-        type: DataType.STRING,
-      },
-      hash: {
-        type: DataType.STRING,
-      },
     },
     {
       hooks: {
         beforeValidate: function (user, option) {
           if (user.email) {
             user.email = user.email.toLowerCase().trim();
-          }
-          if (user.firstname) {
-            user.firstname = toSentenceCase(user.firstname);
-          }
-          if (user.lastname) {
-            user.lastname = toSentenceCase(user.lastname);
-          }
-          if (user.otherNames) {
-            user.otherNames = toSentenceCase(user.otherNames);
           }
         },
       },
@@ -70,7 +40,8 @@ module.exports = function (sequelize, DataType) {
   };
 
   user.prototype.verifyPassword = async function (val) {
-    return await bcrypt.compare(val, this.hash);
+    let userAuth = await this.getAuthentication();
+    return await bcrypt.compare(val, userAuth.hash);
   };
 
   user.prototype.generateToken = function () {
@@ -101,29 +72,6 @@ module.exports = function (sequelize, DataType) {
   };
 
   // class methods
-  user.createRegKey = function (req) {
-    return new Promise(function (resolve, reject) {
-      let info = { ...req.body };
-      bcrypt
-        .genSalt(10)
-        .then((s) => {
-          return bcrypt.hash(info.email + info.password, s);
-        })
-        .then((result) => {
-          let _regNo = result
-            .split("")
-            .reverse()
-            .join("")
-            .replace(/[-|?|\|/|.]/g, "");
-          req.body.regNo = _regNo;
-          resolve(_regNo);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  };
-
   user.findByEmail = function (email) {
     return new Promise(function (resolve, reject) {
       user
