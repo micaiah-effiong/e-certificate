@@ -1,7 +1,7 @@
  .dashboard-section {
      margin: 10px auto;
      text-align:center;
-     font-size: .7rem;
+     font-size: .8rem;
  }
  .dashboard-section h3 {
      font-weight:bold;
@@ -12,4 +12,20 @@
  }
  .dashboard-section img {
     width:100%;
+ }
+
+
+ @media only screen and (min-width:768px) {
+     .dashboard-section {
+         font-size: 1rem;
+         position: relative;
+         left: 114px;
+         overflow-y: hidden;
+     }
+     .dashboard-section img {
+         width: 500px;
+     }
+     .main {
+         overflow-x: hidden;
+     }
  }
