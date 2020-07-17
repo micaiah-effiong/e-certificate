@@ -1,19 +1,26 @@
-const asyncHandler = require("../handlers/async-handler");
-const errorResponse = require("../handlers/error-response");
+const _ = require("underscore");
+const { errorResponse, asyncHandler, toSentenceCase } = require("../handlers");
 
 module.exports = (db) => {
   return {
+    name: "auth",
     register: asyncHandler(async (req, res, next) => {
+      req.body.role = req.body.type;
+      const _type = toSentenceCase(req.body.type || "student");
       let user = await db.user.create(req.body);
+      await user.createAuthentication({ password: req.body.password });
+      await user[`create${_type}`](req.body);
       res.json({
         success: true,
-        data: user.toPublicJSON(),
+        data: user.toJSON(),
       });
     }),
+
     logout: asyncHandler((req, res, next) => {
       req.logout();
       res.redirect("/");
     }),
+
     login: asyncHandler((req, res, next) => {
       let { user } = req;
       req.login(user, function (err) {
@@ -22,7 +29,7 @@ module.exports = (db) => {
         }
         res.json({
           success: true,
-          data: user.toPublicJSON(),
+          data: user.toJSON(),
         });
       });
     }),
