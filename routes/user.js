@@ -2,9 +2,9 @@ const express = require("express");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const db = require("../models/index");
-const auth = require("../middlewares/authenticate")(db);
+// const auth = require("../middlewares/authenticate")(db);
 const stuDetails = require("../middlewares/user-details")(db);
-const courseRoute = require("../routes/course");
+
 const {
   user: {
     getAllUsers,
@@ -17,8 +17,7 @@ const {
 
 const router = express.Router();
 
-router.use(auth.authToken);
-router.use("/course", courseRoute);
+// router.use(auth.authToken);
 
 router.route("/").get(getAllUsers);
 
