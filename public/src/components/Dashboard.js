@@ -11,7 +11,7 @@ class Dashboard extends Component {
 
                 <SideNav/>
                 <div className="main">
-                    <div className="dashboard-header" >
+                    <div className="dashboard-header" style={{textAlign:'center'}}>
                         <p>My Courses</p>
                     </div>
 
@@ -20,7 +20,7 @@ class Dashboard extends Component {
                         <img src={welcome} alt="" className="img-fluid" />
                         <h3>You Have Not Registered a Course</h3>
                         <p>You have to register a course to get a certificate,<br></br> Please select the course you wish to be certified with</p>
-                        <button className="fake-btn">Browse Courses</button>
+                        <button href="#" className="fake-btn">Browse Courses</button>
 
                     </div>
                 </div>
