@@ -1,0 +1,15 @@
+ .dashboard-section {
+     margin: 10px auto;
+     text-align:center;
+     font-size: .7rem;
+ }
+ .dashboard-section h3 {
+     font-weight:bold;
+ }
+
+ .dashboard-section p{
+     color: #616161;
+ }
+ .dashboard-section img {
+    width:100%;
+ }
