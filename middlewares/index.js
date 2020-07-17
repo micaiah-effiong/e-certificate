@@ -16,4 +16,3 @@ fs.readdirSync(__dirname)
   });
 
 module.exports = middleware;
-console.log(middleware);
