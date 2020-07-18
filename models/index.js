@@ -55,7 +55,7 @@ db.authentication.belongsTo(db.user);
 db.institution.hasMany(db.course);
 db.course.belongsTo(db.institution);
 
-db.student.belongsToMany(db.course, { through: db.student_course });
-db.course.belongsToMany(db.student, { through: db.student_course });
+db.student.belongsToMany(db.course, { through: db.studentCourse });
+db.course.belongsToMany(db.student, { through: db.studentCourse });
 
 module.exports = db;
