@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import SideNav from './SideNav';
 import './userprofile.css';
-import './dashboard.css'
+import './dashboard.css';
+import {user} from './user';
 import welcome from '../img/welcome.svg';
 
 class Dashboard extends Component {
+
+    state = {
+        users:user
+    }
     render(){
+
+        console.log(this.state.users);
+        
         return(
             <div className="continer-fluid">
 
