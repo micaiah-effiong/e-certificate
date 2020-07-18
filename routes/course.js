@@ -1,31 +1,25 @@
 const express = require("express");
 const path = require("path");
-const db = require("../models/index");
-const { authToken, authorize } = require("../middlewares/authenticate")(db);
-const pdf = require("../middlewares/html-pdf");
-const stuDetails = require("../middlewares/user-details")(db);
 const {
-  course: {
-    getAllUserCourses,
-    createCourse,
-    completedCourseUpdate,
-    generalUpdate,
-    deleteCourse,
-  },
+  course: { getAllCourses, createCourse, updateCourse, deleteCourse },
 } = require("../controllers/index");
 const router = express.Router();
-router.use(authToken);
+router.use((req, res, next) => {
+  console.log(req.user.__proto__);
+  next();
+});
 
-router.route("/").get(getAllUserCourses).post(createCourse);
+router.route("/").get(getAllCourses).post(createCourse);
+router.route("/:id").put(updateCourse).delete(deleteCourse);
 
 // admins only
 // put
-router
+/*router
   .route("/completed/:userId/:courseId")
-  .put(authorize("admin"), completedCourseUpdate);
+  .put(authorize("admin"), completedCourseUpdate);*/
 
-router
+/*router
   .route("/:userId/:courseId")
   .put(authorize("admin"), generalUpdate)
-  .delete(authorize("admin"), deleteCourse);
+  .delete(authorize("admin"), deleteCourse);*/
 module.exports = router;
