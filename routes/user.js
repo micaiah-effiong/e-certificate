@@ -1,32 +1,12 @@
 const express = require("express");
-const path = require("path");
-const jwt = require("jsonwebtoken");
-const db = require("../models/index");
-// const auth = require("../middlewares/authenticate")(db);
-const stuDetails = require("../middlewares/user-details")(db);
-
 const {
-  user: {
-    getAllUsers,
-    userProfile,
-    getSingleUser,
-    updateSingleUser,
-    deleteSingleUser,
-  },
+  user: { getAll, userProfile, getSingle, update, remove },
 } = require("../controllers/index");
 
 const router = express.Router();
 
-// router.use(auth.authToken);
-
-router.route("/").get(getAllUsers);
-
+router.route("/").get(getAll);
 router.route("/profile").get(userProfile);
-
-router
-  .route("/:id")
-  .get(getSingleUser)
-  .put(updateSingleUser)
-  .delete(deleteSingleUser);
+router.route("/:id").get(getSingle).put(update).delete(remove);
 
 module.exports = router;
