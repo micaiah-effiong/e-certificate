@@ -3,6 +3,13 @@ module.exports = function (sequelize, DataType) {
 		courseName: {
 			type: DataType.STRING,
 		},
+		description: {
+			type: DataType.STRING,
+			allowNull: false,
+		},
+		details: {
+			type: DataType.STRING,
+		},
 		courseDuration: {
 			type: DataType.STRING,
 			allowNull: false,
