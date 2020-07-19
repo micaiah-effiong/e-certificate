@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node-dev index.js",
-    "seed": "node seeder/seeder.js -i -a",
+    "seed": "node seeders/seeder.js -i -a",
     "test": "mocha"
   },
   "keywords": [
