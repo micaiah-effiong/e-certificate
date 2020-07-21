@@ -14,7 +14,33 @@
     width:100%;
  }
 
+ .course-card {
+     background-color: #fff;
+     width: fit-content;
+     padding: 20px;
+     text-align: left;
+     margin: 10px auto;
+ }
 
+ .course-card > .top {
+    
+    width:70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:stretch;
+    
+ }
+ .course-card > .top h4 {
+     font-weight: bold;
+    
+ }
+ .course-card > .top p {
+    
+     font-weight: bold;
+     /* margin-left: auto; */
+     align-self: flex-start;
+ }
  @media only screen and (min-width:768px) {
      .dashboard-section {
          font-size: 1rem;
