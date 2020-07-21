@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import SideNav from './SideNav';
+import CourseCard from './CourseCard';
 import './userprofile.css';
 import './dashboard.css';
 import {user} from './user';
@@ -50,7 +51,13 @@ class Dashboard extends Component {
     
     
                         <div className="dashboard-section">
-                               
+                            <div>
+                                <CourseCard name={this.state.users[0].courseName} 
+                                level={this.state.users[0].courseLevel}
+                                duration={this.state.users[0].courseDuration} 
+                                status={this.state.users[0].status}
+                                />
+                            </div>
                         </div>
                     </div>
 
