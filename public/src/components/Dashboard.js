@@ -51,13 +51,10 @@ class Dashboard extends Component {
     
     
                         <div className="dashboard-section">
-                            <div>
-                                <CourseCard name={this.state.users[0].courseName} 
-                                level={this.state.users[0].courseLevel}
-                                duration={this.state.users[0].courseDuration} 
-                                status={this.state.users[0].status}
-                                />
+                            <div className="container card-wrap">
+                                 <CourseCard users={this.state.users}/>
                             </div>
+                            <button className="fake-btn" href="https://rex.com">Add New Courses</button>
                         </div>
                     </div>
 
