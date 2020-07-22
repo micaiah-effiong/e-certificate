@@ -31,17 +31,17 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use("/assets", auth.authToken, express.static(__dirname + "/public"));
 app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.resolve(__dirname, "public", "build"))); //in production this will point to the build folder
+app.use(express.static(path.resolve(__dirname, "public", "public")));
+app.use(express.static(path.resolve(__dirname, "public", "build"))); // directory for production env
 
 // mounting routes
 app.use("/", indexRouter);
 
-/*errors*/
+// errors
 app.use(function (req, res) {
 	res.status(404).send("File not found");
 });
@@ -84,3 +84,5 @@ process.on("uncaughtException", function () {
 	process.exit(99);
 	console.log("server shutdown due to Uncaught Exception");
 });
+
+module.exports = app;
