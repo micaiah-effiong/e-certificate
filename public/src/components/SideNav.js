@@ -7,24 +7,24 @@ const SideNav = ()=>{
         <div className="container-fluid">
            <div className="sidenav">
                 <h2>Welcome</h2>
-                <a href="#">Courses</a>
-                <a href="#">Get Certificate</a>
-                <a href="#">Account</a>
-                <a href="#">Support</a>
-                <a href="#">Contact</a>
+                <a href="http://wpdemo">Courses</a>
+                <a href="http://wpdemo">Get Certificate</a>
+                <a href="http://wpdemo">Account</a>
+                <a href="http://wpdemo">Support</a>
+                <a href="http://wpdemo">Contact</a>
             </div>
             
             <div className="menu">
                 <input type="checkbox" id="check" />
-                <label for="check" class="button">
+                <label htmlFor="check" className="button">
                     <span></span>
                     <span></span>
                     <span></span>
                 </label>
                 <nav>
-                    <a href="#">Element 1</a>
-                    <a href="#">Element 2</a>
-                    <a href="#">Element 3</a>
+                    <a href="http://wpdemo">Element 1</a>
+                    <a href="http://wpdemo">Element 2</a>
+                    <a href="http://wpdemo">Element 3</a>
                 </nav>
             </div>	
 
