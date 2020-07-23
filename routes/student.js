@@ -5,7 +5,7 @@ const {
 } = require("../controllers/index");
 
 const router = express.Router();
-router.use("/course", courseOfferedRoute);
+router.use("/courses", courseOfferedRoute);
 
 router.route("/").get(getAll);
 router.route("/:id").get(getSingle).put(update).delete(remove);
