@@ -12,16 +12,14 @@ const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const passport = require("passport");
 const db = require("./models/index");
-const stuDetails = require("./middlewares/user-details")(db);
-const errorHandler = require("./middlewares/error-handler.js");
-const auth = require("./middlewares/authenticate")(db);
+const { errorHandler } = require("./middlewares/index");
 const indexRouter = require("./routes/index");
 let fileStoreOptions = {};
 const sess = {
 	secret: `secret`,
 	store: new FileStore(fileStoreOptions),
 	resave: false,
-	saveUninitialized: false,
+	saveUninitialized: true,
 };
 
 // template engine set up
@@ -71,8 +69,8 @@ db.sequelize.sync({ force: false }).then(
 
 // exit
 process.on("exit", function () {
-	process.exit();
 	console.log("server shutting down normally");
+	process.exit();
 });
 
 process.on("SIGINT", function () {
@@ -81,8 +79,8 @@ process.on("SIGINT", function () {
 });
 
 process.on("uncaughtException", function () {
-	process.exit(99);
 	console.log("server shutdown due to Uncaught Exception");
+	process.exit(99);
 });
 
 module.exports = app;

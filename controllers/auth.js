@@ -4,6 +4,7 @@ const { errorResponse, asyncHandler, toSentenceCase } = require("../handlers");
 module.exports = (db) => {
   return {
     name: "auth",
+
     register: asyncHandler(async (req, res, next) => {
       req.body.role = req.body.type;
       const _type = toSentenceCase(req.body.type || "student");
