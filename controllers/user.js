@@ -1,146 +1,60 @@
 const db = require("../models/index");
 const stuDetails = require("../middlewares/user-details")(db);
-const { errorResponse } = require("../handlers/index");
+const { errorResponse, asyncHandler } = require("../handlers/index");
 
 module.exports = function (db) {
   return {
     name: "user",
-    getAllUsers: (req, res, next) => {
-      db.user
-        .findAll()
-        .then((users) => {
-          if (!users)
-            return res.json({
-              success: true,
-              data: users,
-            });
-          let result = users.map((user) => {
-            return user.toPublicJSON();
-          });
-          return res.json({
-            success: true,
-            data: result,
-            count: result.length,
-          });
-        })
-        .catch((err) => {
-          next(err);
-        });
-    },
 
-    deleteSingleUser: (req, res, next) => {
+    getAll: asyncHandler(async (req, res, next) => {
+      let users = await db.user.findAll();
+      return res.json({
+        success: true,
+        data: users,
+        count: users.length,
+      });
+    }),
+
+    getSingle: asyncHandler(async (req, res, next) => {
       let id = parseInt(req.params.id);
-      if (!(req.cookies.serialized.serialized == id)) {
-        return next(errorResponse("Action not allowed", 401));
-      } else {
-        return db.user
-          .destroy({ where: { id: id } })
-          .then((user) => {
-            if (!user) return next(errorResponse("user not found", 400));
-            return res.json({
-              success: true,
-              data: user,
-            });
-          })
-          .catch((err) => {
-            next(err);
-          });
-      }
-    },
+      let user = await db.user.findByPk(id);
+      if (!user) return next(errorResponse("Invalid request", 400));
+      return res.json({
+        success: true,
+        data: user.toJSON(),
+      });
+    }),
 
-    getAllUsers: (req, res, next) => {
-      db.user
-        .findAll()
-        .then((users) => {
-          if (!users)
-            return res.json({
-              success: true,
-              data: users,
-            });
-          let result = users.map((user) => {
-            return user.toPublicJSON();
-          });
-          return res.json({
-            success: true,
-            data: result,
-            count: result.length,
-          });
-        })
-        .catch((err) => {
-          next(err);
-        });
-    },
-
-    userProfile: (req, res, next) => {
+    userProfile: asyncHandler((req, res, next) => {
       res.json({
         success: true,
-        data: req.user.toPublicJSON(),
+        data: req.user.toJSON(),
       });
-    },
+    }),
 
-    getSingleUser: (req, res, next) => {
+    update: asyncHandler(async (req, res, next) => {
       let id = parseInt(req.params.id);
-      return db.user
-        .findByPk(id)
-        .then((user) => {
-          if (!user) return next(errorResponse("user not found", 400));
-          return res.json({
-            success: true,
-            data: user.toPublicJSON(),
-          });
-        })
-        .catch((err) => {
-          next(err);
-        });
-    },
+      let user = await db.user.findOne({ where: { id } });
+      if (!user) return next(errorResponse("Bad request", 400));
+      user = await user.update(req.body);
 
-    updateSingleUser: (req, res, next) => {
-      let id = parseInt(req.params.id);
-      if (!(req.cookies.serialized.serialized == id)) {
-        return next(errorResponse("Action not allowed", 401));
-      } else {
-        db.user
-          .findOne({
-            where: { id },
-          })
-          .then((user) => {
-            if (!user) return next(errorResponse("No such user", 400));
-            return user;
-          })
-          .then((user) => {
-            return user.update(req.body);
-          })
-          .then((result) => {
-            res.json({
-              success: true,
-              msg: "User has been updated",
-              data: result.toPublicJSON(),
-            });
-          })
-          .catch((err) => {
-            next(err);
-          });
-      }
-    },
+      res.json({
+        success: true,
+        msg: "User has been updated",
+        data: user.toJSON(),
+      });
+    }),
 
-    deleteSingleUser: (req, res, next) => {
+    remove: asyncHandler(async (req, res, next) => {
       let id = parseInt(req.params.id);
-      if (!(req.cookies.serialized.serialized == id)) {
-        return next(errorResponse("Action not allowed", 401));
-      } else {
-        return db.user
-          .destroy({ where: { id: id } })
-          .then((user) => {
-            if (!user) return next(errorResponse("user not found", 400));
-            return res.json({
-              success: true,
-              data: user,
-            });
-          })
-          .catch((err) => {
-            next(err);
-          });
-      }
-    },
+      let user = await db.user.findOne({ where: { id } });
+      if (!user) return next(errorResponse("Bad request", 400));
+
+      await db.user.destroy();
+      return res.json({
+        success: true,
+        data: user.toJSON(),
+      });
+    }),
   };
 };

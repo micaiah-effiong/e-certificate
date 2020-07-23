@@ -4,7 +4,8 @@ const app = express();
 const http = require("http");
 const serverProxy = require("http-proxy");
 const server = http.createServer(app);
-const PORT = process.env.PORT || 3300;
+const path = require("path");
+const PORT = process.env.PORT || 3000;
 const ejs = require("ejs");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -30,22 +31,17 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use("/assets", auth.authToken, express.static(__dirname + "/public"));
 app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.resolve(__dirname, "public", "public")));
+app.use(express.static(path.resolve(__dirname, "public", "build"))); // directory for production env
 
 // mounting routes
 app.use("/", indexRouter);
 
-// routes
-app.get("/", function (req, res) {
-	res.sendFile(`${__dirname}/public/index.html`);
-});
-
-/*errors*/
+// errors
 app.use(function (req, res) {
 	res.status(404).send("File not found");
 });
@@ -53,7 +49,7 @@ app.use(function (req, res) {
 app.use(errorHandler);
 
 // database connection
-db.sequelize.sync({ force: true }).then(
+db.sequelize.sync({ force: false }).then(
 	function () {
 		if (process.env.NODE_ENV == "development") {
 			serverProxy
@@ -88,3 +84,5 @@ process.on("uncaughtException", function () {
 	process.exit(99);
 	console.log("server shutdown due to Uncaught Exception");
 });
+
+module.exports = app;

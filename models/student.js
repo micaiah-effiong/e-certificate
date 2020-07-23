@@ -33,17 +33,15 @@ module.exports = function (sequelize, DataType) {
       hooks: {
         beforeValidate: async function (student, options) {
           try {
+            let _email = (await student.getUser()).email;
             let salt = await bcrypt.genSalt(10);
-            let hash = await bcrypt.hash(
-              student.email + student.password,
-              salt
-            );
+            let hash = await bcrypt.hash(_email, salt);
 
             let key = hash
               .split("")
               .reverse()
               .join("")
-              .replace(/[-|?|\|/|.]/g, "");
+              .replace(/[-|?|\|$|/|.]/g, "");
             student.regNo = key;
           } catch (err) {
             console.log(err);
