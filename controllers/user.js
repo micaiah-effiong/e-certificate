@@ -1,6 +1,10 @@
 const db = require("../models/index");
 const stuDetails = require("../middlewares/user-details")(db);
-const { errorResponse, asyncHandler } = require("../handlers/index");
+const {
+  errorResponse,
+  asyncHandler,
+  toSentenceCase,
+} = require("../handlers/index");
 
 module.exports = function (db) {
   return {
@@ -25,10 +29,14 @@ module.exports = function (db) {
       });
     }),
 
-    userProfile: asyncHandler((req, res, next) => {
+    userProfile: asyncHandler(async (req, res, next) => {
+      let role = toSentenceCase(req.user.role);
+      let extra = await req.user[`get${role}`]();
+      let user = req.user.toJSON();
+      user[user.role] = extra;
       res.json({
         success: true,
-        data: req.user.toJSON(),
+        data: user,
       });
     }),
 
