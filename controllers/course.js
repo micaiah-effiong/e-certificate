@@ -35,7 +35,8 @@ module.exports = function (db) {
       // get courses from user
       // loop through array and check for on with same id
       // run update
-      let course = await db.course.findByPk(req.params.id);
+      let courses = await req.user.getCourses();
+      let [course] = courses.filter((c) => c.id == req.params.id);
       let courseUpdate = await course.update(body);
 
       res.json({
