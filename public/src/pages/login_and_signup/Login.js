@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import Register from './Register';
 import "./Login.css";
+import { BrowserRouter as Router, Route ,Switch, Link} from 'react-router-dom';
+
 
 class Login extends Component {
   // validation
@@ -112,14 +115,21 @@ class Login extends Component {
               </div>
 
               <p className="foot-register-link">
-                Don't have an account?<a href="./Register.js"> Register here</a>
+                Don't have an account?<Link to="/signup">Register here</Link> 
               </p>
             </div>
           </div>
         </div>
+      <Router>
+        <Switch>
+          <Route path="/signup"  component={Register}/>
+        </Switch>
+      </Router>
       </div>
     );
   }
 }
+
+
 
 export default Login;

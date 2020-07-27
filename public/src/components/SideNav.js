@@ -1,5 +1,7 @@
 import React from 'react';
-import './sidenav.css'
+import './sidenav.css';
+import { Link } from 'react-router-dom';
+
 
 
 const SideNav = ()=>{
@@ -7,7 +9,7 @@ const SideNav = ()=>{
         <div className="container-fluid">
            <div className="sidenav">
                 <h2>Welcome</h2>
-                <a href="#">Courses</a>
+                    <Link><a href="#">Courses</a></Link>
                 <a href="#">Get Certificate</a>
                 <a href="#">Account</a>
                 <a href="#">Support</a>

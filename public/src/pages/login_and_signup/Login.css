@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 
@@ -40,7 +41,9 @@
 }
 
 .card input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"]
+ {
   background-color: #dfdfdf !important;
   border: 1px solid #dfdfdf !important;
   padding: 10px;
@@ -112,11 +115,10 @@ form input:active {
 @media only screen and (max-width: 768px) {
   * {
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
+    /* overflow-y: hidden; */
   }
-  /* .sidebar-wrap {
-        display: none;
-    } */
+
   .col-md-9 {
     display: block;
     height: 100vh;
@@ -125,4 +127,7 @@ form input:active {
   .card {
     width: fit-content;
   }
-}
+  .card h4 {
+    overflow-y: hidden;
+  }
+} 

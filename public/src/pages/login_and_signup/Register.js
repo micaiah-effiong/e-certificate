@@ -1,7 +1,9 @@
 import React,{Component} from 'react';
+import Login from './Login';
+import {BrowserRouter as Router,Route,Switch,Link} from 'react-router-dom';
 import './Login';
-import './Login.css'
-import './Register.css'
+import './Login.css';
+import './Register.css';
 
 
 class Register extends Component {
@@ -153,7 +155,7 @@ class Register extends Component {
                                     
 
                                 </form>
-                                <p className="foot-register-link" style={{color:'#9B51E0',fontSize:'.8rem'}}>Already have an account?<a href="#"> Register here</a></p>
+                                <p className="foot-register-link" style={{color:'#9B51E0',fontSize:'.8rem'}}>Already have an account?<Link to="/login">Login here</Link></p>
 
                             </div>
 
@@ -162,6 +164,12 @@ class Register extends Component {
                         </div>
                     </div>
                 </div>
+
+                <Router>
+                    <Switch>
+                    <Route path="/login" exact component={Login}/>
+                    </Switch>
+                </Router>
 
             </div>
         )
