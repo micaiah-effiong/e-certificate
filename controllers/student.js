@@ -12,7 +12,6 @@ module.exports = function (db) {
     }),
 
     getSingle: asyncHandler(async (req, res, next) => {
-      let { body } = req;
       let student = await db.findByPk(req.params.id);
       if (!student) return next(errorResponse("Invalid request", 400));
       res.json({

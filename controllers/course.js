@@ -32,7 +32,11 @@ module.exports = function (db) {
 
     update: asyncHandler(async (req, res, next) => {
       let { body } = req;
-      let course = await db.course.findByPk(req.params.id);
+      // get courses from user
+      // loop through array and check for on with same id
+      // run update
+      let courses = await req.user.getCourses();
+      let [course] = courses.filter((c) => c.id == req.params.id);
       let courseUpdate = await course.update(body);
 
       res.json({

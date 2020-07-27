@@ -33,8 +33,7 @@ app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.resolve(__dirname, "public", "public")));
-app.use(express.static(path.resolve(__dirname, "public", "build"))); // directory for production env
+app.use(express.static(path.resolve(__dirname, "public", "build", "static")));
 
 // mounting routes
 app.use("/", indexRouter);
