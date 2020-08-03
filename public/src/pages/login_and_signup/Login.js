@@ -113,7 +113,7 @@ class Login extends Component {
                   </div>
                 </form>
               </div>
-
+              <a href="login.html" className="btn btn-danger">login</a>
               <p className="foot-register-link">
                 Don't have an account?<Link to="/signup">Register here</Link> 
               </p>
