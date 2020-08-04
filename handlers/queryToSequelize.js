@@ -1,4 +1,5 @@
 const { Op } = require("sequelize");
+
 /*
  * convert request queries to Sequelize queries using Sequelize.Op
  * @param {Object} query is an express requset query object

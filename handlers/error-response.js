@@ -5,6 +5,8 @@ class ErrorResponse extends Error {
   }
 }
 
-module.exports = (msg, statusCode) => {
+let errorResponse = (msg, statusCode) => {
   return new ErrorResponse(msg, statusCode);
 };
+
+module.exports = errorResponse;

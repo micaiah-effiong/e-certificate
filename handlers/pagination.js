@@ -1,5 +1,5 @@
 let db = require("../models/index");
-const qureyHandler = require("./advanceQuery");
+const qureyHandler = require("./qureyHandler");
 
 /*
  * @param {Object} qurey is a request object
@@ -14,7 +14,7 @@ const qureyHandler = require("./advanceQuery");
  * },
  */
 
-module.exports = async function (query) {
+let pagination = async function (query) {
   /*
    * setup response pagination
    */
@@ -47,3 +47,5 @@ module.exports = async function (query) {
 
   return pagination;
 };
+
+module.exports = pagination;

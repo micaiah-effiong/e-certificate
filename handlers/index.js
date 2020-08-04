@@ -1,25 +1,18 @@
-const qureyHandler = require("./advanceQuery");
-const queryToSequelize = require("./queryToSequelize");
-const asyncHandler = require("./async-handler");
-const errorResponse = require("./error-response");
-const pagination = require("./pagination");
+const db = require("../models/index");
+const fs = require("fs");
+const path = require("path");
+const basename = path.basename(__filename);
+let handler = {};
 
-module.exports = {
-  /*
-   * @param {String} str
-   * return string with first letter as capital
-   * convert str to sentence case
-   * toSentenceCase("foo") => "Foo"
-   */
-  toSentenceCase(str) {
-    // to Sentence Case function
+fs.readdirSync(__dirname)
+  .filter((file) => {
     return (
-      str.toLowerCase().split("")[0].toUpperCase() + str.substr(1).toLowerCase()
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
     );
-  },
-  qureyHandler,
-  queryToSequelize,
-  pagination,
-  asyncHandler,
-  errorResponse,
-};
+  })
+  .forEach((file) => {
+    const _filesModule = require(path.join(__dirname, file));
+    handler[_filesModule.name] = _filesModule;
+  });
+
+module.exports = handler;
