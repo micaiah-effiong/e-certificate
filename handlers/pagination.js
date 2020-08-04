@@ -14,11 +14,11 @@ const qureyHandler = require("./qureyHandler");
  * },
  */
 
-let pagination = async function (query) {
+let pagination = async function (query, total) {
   /*
    * setup response pagination
    */
-  let pagination = {};
+  let option = {};
   let { page, limit } = query;
   limit = Number(limit);
   page = Number(page);
@@ -29,23 +29,23 @@ let pagination = async function (query) {
    * in order to get the actual length of data response
    * which is based on the users request
    */
-  ["page", "limit"].forEach((val) => delete query[val]);
+  /*["page", "limit"].forEach((val) => delete query[val]);
   let total = await db.review
     .findAll(qureyHandler(query))
-    .then((result) => result.length);
+    .then((result) => result.length);*/
 
   /*
    * create pagination data for next and previous pages
    */
   if (offset > 0) {
-    pagination.prev = { page: page - 1, limit };
+    option.prev = { page: page - 1, limit };
   }
 
   if (limit * page < total) {
-    pagination.next = { page: page + 1, limit };
+    option.next = { page: page + 1, limit };
   }
 
-  return pagination;
+  return option;
 };
 
 module.exports = pagination;
