@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Register from './Register';
 import "./Login.css";
-import { BrowserRouter as Router, Route ,Switch, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 class Login extends Component {
@@ -75,11 +74,11 @@ class Login extends Component {
             className="col-12 col-lg-9 col-sm-12 col-xs-12"
             style={{ backgroundColor: "#9b51e0" }}
           >
-            <div className="container">
-              <a href="../Home.js" className="fa fa-arrow-left back-home-link">
+            <div className="container main-wrap">
+              <Link to="/" className="fa fa-arrow-left back-home-link">
                 {" "}
                 Back to Home
-              </a>
+              </Link>
               <div className="card">
                 <h4>Login</h4>
 
@@ -113,18 +112,12 @@ class Login extends Component {
                   </div>
                 </form>
               </div>
-              <a href="login.html" className="btn btn-danger">login</a>
               <p className="foot-register-link">
-                Don't have an account?<Link to="/signup">Register here</Link> 
+                Don't have an account?<Link to="/register">Register here</Link> 
               </p>
             </div>
           </div>
         </div>
-      <Router>
-        <Switch>
-          <Route path="/signup"  component={Register}/>
-        </Switch>
-      </Router>
       </div>
     );
   }

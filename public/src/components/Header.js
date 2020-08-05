@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 
@@ -9,7 +9,7 @@ class Header extends Component{
         return(
             <div>
 
-                <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
@@ -38,16 +38,18 @@ class Header extends Component{
                         </Link>
                     </ul>
                     <form className="form-inline my-2 my-lg-0">
-                        <Link to="">
+                        <Link to="/register">
                             <button className="btn nav-btn  my-2 my-sm-0 mr-2" type="submit">Sign Up</button>
                         </Link>
                         <Link to="/login">
                             <button className="btn nav-btn my-2 my-sm-0" type="submit">Login</button>
                         </Link>
+                       
                         
                     </form>
                     </div>
                 </nav>
+                
             </div>
         )
     }

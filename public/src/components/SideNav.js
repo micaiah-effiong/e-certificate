@@ -9,8 +9,8 @@ const SideNav = ()=>{
         <div className="container-fluid">
            <div className="sidenav">
                 <h2>Welcome</h2>
-                    <Link><a href="#">Courses</a></Link>
-                <a href="#">Get Certificate</a>
+                <Link><a href="#">Courses</a></Link>
+                <a href="../">Get Certificate</a>
                 <a href="#">Account</a>
                 <a href="#">Support</a>
                 <a href="#">Contact</a>

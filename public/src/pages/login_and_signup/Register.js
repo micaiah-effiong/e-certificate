@@ -111,7 +111,7 @@ class Register extends Component {
                     </div> 
                     <div className="col-12 col-lg-9 col-sm-12 col-xs-12" style={{backgroundColor:'#9b51e0'}}>
                         <div className="container">
-                        <a href="#" className="fa fa-arrow-left back-home-link"> Back to Home</a>
+                        <Link to="/" className="fa fa-arrow-left back-home-link"> Back to Home</Link>
                             <div className="card card-two">
                                 <h4>Sign Up</h4>
 
