@@ -1,13 +1,4 @@
- /* .card {
-    width: fit-content;
-    margin: 20px auto;
-    display: flex;
-    flex-direction: row;
-    padding:20px;
-    justify-content: space-between;
-    border:none;
 
-} */
 .dashboard-header {
     width:100%;
     padding:20px;
@@ -30,6 +21,7 @@
     border-left: 1px solid #c4c4c4;
     height: 200px;
     padding:2px 10px 2px 10px;
+    background: red;
     /* position: absolute;
     left: 50%;
     margin-left: -3px;
@@ -46,17 +38,7 @@
     padding: 10px 20px 10px 20px;
 }
 
-/* input[type="file"] {
-    position: relative;
-    top:0px;
-    top: 7px;
-    left: 99px;;
-    display: block;
-    margin: 10px auto;
-    opacity:0;
-    filter: alpha(opacity= 0);
-    z-index: 2;
-} */
+
 
 @media only screen and (max-width:768px) {
     .card {

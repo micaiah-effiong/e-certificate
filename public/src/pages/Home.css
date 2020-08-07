@@ -83,7 +83,7 @@ section {
 /* media queries */
 
 
-@keyframes bounce {
+/* @keyframes bounce {
 
 	0% {
 		transform: translateY(0);
@@ -94,9 +94,26 @@ section {
 		transform: translateY(20px);
 	}
 
-}
+} */
 
 @media only screen and (max-width:767px) {
+
+    .nav-form {
+        position:relative;
+        left:100px;
+    }
+
+    section {
+        margin: 0;
+        padding: 40px;
+    }
+   
+    .land {
+        background-image: url(../img/school.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        
+    }
 	.banner h1, p {
 		text-align: center;
 	}

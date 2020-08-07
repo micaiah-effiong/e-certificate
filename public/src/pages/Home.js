@@ -10,7 +10,7 @@ class Home extends Component {
     render(){
         return(
             <div className="section">
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
@@ -38,7 +38,7 @@ class Home extends Component {
                             </li>
                         </Link>
                     </ul>
-                    <form className="form-inline my-2 my-lg-0">
+                    <form className="form-inline nav-form my-2 my-lg-0">
                         <Link to="/register">
                             <button className="btn nav-btn  my-2 my-sm-0 mr-2" type="submit">Sign Up</button>
                         </Link>
@@ -50,7 +50,7 @@ class Home extends Component {
                     </form>
                     </div>
                 </nav>
-                <section>
+                <section className="land">
 
                     <div className="container">          
                         <div className="row banner">

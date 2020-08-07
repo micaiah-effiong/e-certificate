@@ -39,7 +39,6 @@
 }
 .course-card > .top p {
   font-weight: bold;
-  /* margin-left: auto; */
   align-self: flex-start;
 }
 @media only screen and (min-width: 768px) {
