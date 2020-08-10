@@ -3,13 +3,54 @@ import cert from '../img/cert.svg';
 import './Home.css';
 import brand1 from  '../img/br1.png';
 import brand2 from  '../img/br5.png';
+import {Link} from 'react-router-dom';
 
 
 class Home extends Component {
     render(){
         return(
             <div className="section">
-                <section>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                    </button>
+                        <Link className="navbar-brand" to="/">Navbar</Link>
+                    
+                
+                    <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
+                    <ul className="navbar-nav m-auto mt-2 mt-lg-0">
+                        <Link to="/">
+
+                            <li className="nav-item nav-link active mr-2">
+                            Register Course<span className="sr-only">(current)</span>
+                            </li>
+                        </Link>
+                        <Link to="/">
+
+                            <li className="nav-item nav-link mr-2">
+                             Certificate
+                            </li>
+                        </Link>
+
+                        <Link to="/about">              
+                            <li className="nav-item nav-link mr-2">
+                                About Us
+                            </li>
+                        </Link>
+                    </ul>
+                    <form className="form-inline nav-form my-2 my-lg-0">
+                        <Link to="/register">
+                            <button className="btn nav-btn  my-2 my-sm-0 mr-2" type="submit">Sign Up</button>
+                        </Link>
+                        <Link to="/login">
+                            <button className="btn nav-btn my-2 my-sm-0" type="submit">Login</button>
+                        </Link>
+                       
+                        
+                    </form>
+                    </div>
+                </nav>
+                <section className="land">
 
                     <div className="container">          
                         <div className="row banner">
@@ -34,7 +75,7 @@ class Home extends Component {
                         <div className="row cert-sect">
                             <div className="col-md-4">
                                 <div className="step">
-                                    <h1 className="fa fa-sign-in"></h1>
+                                    <i className="fa fa-sign-in"></i>
                                     
                                     <h4>Register</h4>
                                     <p>Students sign up and register their courses and school</p>
@@ -42,7 +83,7 @@ class Home extends Component {
                             </div>
                             <div className="col-md-4">
                                 <div className="step">
-                                    <h1 className="fa fa-university"></h1>
+                                    <i className="fa fa-university"></i>
                                     
                                     <h4>Complete Course</h4>
                                     <p>Complete and Verify course</p>
@@ -50,7 +91,7 @@ class Home extends Component {
                             </div>
                             <div className="col-md-4">
                                 <div className="step">
-                                    <h1 className="fa fa-certificate"></h1>
+                                    <i className="fa fa-certificate"></i>
                                     
                                     <h4>Get Certified</h4>
                                     <p>Get certification in PDF to your mail or download</p>
@@ -84,6 +125,39 @@ class Home extends Component {
                     </div>
 
                 </section>
+
+
+                <div className="footer">
+           <div className="container">
+               <div className="row">
+                   <div className="col-md-4">
+					<ul className="footer-nav">
+						<p>About</p>
+						<li><a href="https://foobar.com">Blog</a></li>
+						<li><a href="https://foobar.com">Demo</a></li>
+						<li><a href="https://foobar.com">Customers</a></li>
+						<li><a href="https://foobar.com">Terms of service</a></li>
+					</ul>
+                   </div>
+                   <div className="col-md-4">
+				   		<p>Info</p>	
+					<ul className="footer-nav">
+						<li><a href="https://foobar.com">Jobs</a></li>
+						<li><a href="https://foobar.com">Support</a></li>
+						<li><a href="https://foobar.com">Contact</a></li>
+						
+					</ul>
+                   </div>
+                   <div className="col-md-4">
+
+				   	<h3>Join Our Newsletter</h3>
+					   <div className="footer-form">
+					   	<input type="email"  placeholder="Email"/><button className="footer-btn">Subscribe</button>
+					   </div>
+                   </div>
+               </div>
+           </div>
+        </div>
 
                 
             </div>

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./Login.css";
+import {Link} from 'react-router-dom';
+
 
 class Login extends Component {
   // validation
@@ -72,11 +74,11 @@ class Login extends Component {
             className="col-12 col-lg-9 col-sm-12 col-xs-12"
             style={{ backgroundColor: "#9b51e0" }}
           >
-            <div className="container">
-              <a href="../Home.js" className="fa fa-arrow-left back-home-link">
+            <div className="container main-wrap">
+              <Link to="/" className="fa fa-arrow-left back-home-link">
                 {" "}
                 Back to Home
-              </a>
+              </Link>
               <div className="card">
                 <h4>Login</h4>
 
@@ -110,9 +112,8 @@ class Login extends Component {
                   </div>
                 </form>
               </div>
-
               <p className="foot-register-link">
-                Don't have an account?<a href="./Register.js"> Register here</a>
+                Don't have an account?<Link to="/register">Register here</Link> 
               </p>
             </div>
           </div>
@@ -121,5 +122,7 @@ class Login extends Component {
     );
   }
 }
+
+
 
 export default Login;

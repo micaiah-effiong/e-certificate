@@ -1,8 +1,12 @@
 * {
   box-sizing: border-box;
-  overflow-y: hidden;
+  /* overflow-x: hidden;
+  overflow-y: hidden; */
 }
 
+Header {
+  display: none;
+}
 .sidebar-wrap {
   background-color: #5f07b1;
   height: 100vh;
@@ -40,7 +44,9 @@
 }
 
 .card input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"]
+ {
   background-color: #dfdfdf !important;
   border: 1px solid #dfdfdf !important;
   padding: 10px;
@@ -101,6 +107,11 @@ form input:active {
   /* font-family: 'Poppins', sans-serif; */
 }
 
+.back-home-link:hover {
+  color:#efefef;
+  text-decoration: none;
+}
+
 .foot-register-link {
   text-align: center;
   color: #fff;
@@ -111,18 +122,33 @@ form input:active {
 
 @media only screen and (max-width: 768px) {
   * {
-    overflow-x: hidden;
-    overflow-y: hidden;
+    /* overflow-x: hidden; */
+    
+    /* overflow-y: hidden; */
   }
-  /* .sidebar-wrap {
-        display: none;
-    } */
-  .col-md-9 {
+
+  .col-md-9  {
     display: block;
     height: 100vh;
     width: 100vw;
   }
+  
+  .main-wrap {
+    height: 100vh;
+  }
   .card {
     width: fit-content;
+    
   }
+  .card h4 {
+    overflow-y: hidden;
+  }
+} 
+
+
+@media only screen and (min-width: 768px) {
+.main-wrap {
+  height: 100vh;
+}
+
 }

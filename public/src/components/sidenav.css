@@ -35,6 +35,7 @@
   /* When you mouse over the navigation links, change their color */
   .sidenav a:hover {
     color: #e5e5e5;
+    text-decoration: none;
   }
   
    
@@ -65,14 +66,17 @@
    font-family: 'Poppins';
 }
 
-h1{
+
+
+/* problem 1 */
+/* h1{
     font-size: 50px;
     position: absolute;
     width: 100%;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-}
+} */
 
 
 .menu{
@@ -130,19 +134,20 @@ h1{
 
 
 /* the nav height is set to 0 when the navbar is closed */
-
-nav{
+/* problem 2 */
+.diff-nav{
     text-align: left;
     overflow: hidden;
     transition: all 0.4s ease;
-    position: absolute;
+    position:fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: #ffffff;
+    background: #5F07B1;
+    color:white;
     height: 0;
 }
-nav a{
+.diff-nav a{
     text-decoration: none;
     color: #0c1019;
     display: block;
@@ -155,16 +160,17 @@ nav a{
     border-bottom: 1px solid #b4ac97;
 }
 
-nav a:hover{
-    background: #ffdd7f;
+.diff-nav a:hover{
+    /* background: #ffdd7f; */
+    background: white;
 }
 
 /* the nav height will be set to the height in pixels that would have for default, using height:auto won't work but you can put that value in pixels creating the slide*/
-#check:checked ~ nav{
+#check:checked ~ .diff-nav{
     height: 144px;
 }
 
-#check:checked ~ nav a{
+#check:checked ~ .diff-nav a{
     padding: 10px;
     opacity: 1;
     transform: scale(1);

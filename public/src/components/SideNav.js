@@ -1,5 +1,7 @@
 import React from 'react';
-import './sidenav.css'
+import './sidenav.css';
+import { Link } from 'react-router-dom';
+
 
 
 const SideNav = ()=>{
@@ -7,11 +9,11 @@ const SideNav = ()=>{
         <div className="container-fluid">
            <div className="sidenav">
                 <h2>Welcome</h2>
-                <a href="#">Courses</a>
-                <a href="#">Get Certificate</a>
-                <a href="#">Account</a>
-                <a href="#">Support</a>
-                <a href="#">Contact</a>
+                <Link>Courses</Link>
+                <Link to="/">Get Certificate</Link>
+                <Link to="/">Account</Link>
+                <Link to="/">Support</Link>
+                <Link to="/">Contact</Link>
             </div>
             
             <div className="menu">
@@ -21,11 +23,11 @@ const SideNav = ()=>{
                     <span></span>
                     <span></span>
                 </label>
-                <nav>
+                <div className="diff-nav">
                     <a href="#">Element 1</a>
                     <a href="#">Element 2</a>
                     <a href="#">Element 3</a>
-                </nav>
+                </div>
             </div>	
 
 
