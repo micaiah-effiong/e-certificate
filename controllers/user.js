@@ -13,6 +13,7 @@ module.exports = function (db) {
     getAll: asyncHandler(async (req, res, next) => {
       const users = await db.user.findAll();
       const usersPublicDataArray = users.map((user) => user.toPublicJSON());
+
       return res.json({
         success: true,
         data: usersPublicDataArray,
@@ -31,13 +32,13 @@ module.exports = function (db) {
     }),
 
     userProfile: asyncHandler(async (req, res, next) => {
-      let role = toSentenceCase(req.user.role);
-      let extra = await req.user[`get${role}`]();
-      let user = req.user.toJSON();
-      user[user.role] = extra;
+      // let role = toSentenceCase(req.user.role);
+      // let extra = await req.user[`get${role}`]();
+      // let user = req.user.toJSON();
+      // user[user.role] = extra;
       res.json({
         success: true,
-        data: user.toPublicJSON(),
+        data: req.user.toPublicJSON(),
       });
     }),
 

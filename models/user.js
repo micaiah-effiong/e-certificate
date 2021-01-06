@@ -17,23 +17,43 @@ module.exports = function (sequelize, DataType) {
           isEmail: true,
         },
       },
+
       role: {
         type: DataType.ENUM,
         allowNull: true,
         defaultValue: "student",
         values: ["student", "institution", "admin"],
       },
+
       name: {
         type: DataType.STRING,
         allowNull: true,
       },
+
       firstname: {
         type: DataType.STRING,
         allowNull: true,
       },
+
       lastname: {
         type: DataType.STRING,
         allowNull: true,
+      },
+
+      password: {
+        type: DataType.VIRTUAL,
+        allowNull: false,
+        valitade: {
+          len: [6, 100],
+        },
+      },
+
+      salt: {
+        type: DataType.STRING,
+      },
+
+      hash: {
+        type: DataType.STRING,
       },
     },
     {
@@ -59,6 +79,15 @@ module.exports = function (sequelize, DataType) {
             user.firstname = null;
             user.lastname = null;
           }
+        },
+
+        beforeCreate: async function (authentication, option) {
+          const { password: _password } = authentication;
+          let salt = await bcrypt.genSalt(10);
+          let hash = await bcrypt.hash(_password, salt);
+          authentication.setDataValue("password", _password);
+          authentication.setDataValue("salt", salt);
+          authentication.setDataValue("hash", hash);
         },
       },
     }
@@ -92,7 +121,9 @@ module.exports = function (sequelize, DataType) {
 
   user.prototype.toPublicJSON = function () {
     const entity = this.toJSON();
-    const list = Object.keys(entity).filter((e) => entity[e] !== null);
+    let list = Object.keys(entity)
+      .filter((e) => entity[e] !== null)
+      .filter((item) => !["salt", "hash"].includes(item));
 
     return _.pick(entity, list);
   };
