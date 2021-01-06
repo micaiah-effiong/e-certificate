@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const _ = require("underscore");
 
 module.exports = function (sequelize, DataType) {
   let _valitade = {
@@ -19,8 +20,20 @@ module.exports = function (sequelize, DataType) {
       role: {
         type: DataType.ENUM,
         allowNull: true,
-        defaultValue: "user",
+        defaultValue: "student",
         values: ["student", "institution", "admin"],
+      },
+      name: {
+        type: DataType.STRING,
+        allowNull: true,
+      },
+      firstname: {
+        type: DataType.STRING,
+        allowNull: true,
+      },
+      lastname: {
+        type: DataType.STRING,
+        allowNull: true,
       },
     },
     {
@@ -28,6 +41,23 @@ module.exports = function (sequelize, DataType) {
         beforeValidate: function (user, option) {
           if (user.email) {
             user.email = user.email.toLowerCase().trim();
+          }
+
+          if (user.role === "student") {
+            if (user.firstname.length <= 0 || user.lastname.length <= 0) {
+              throw Error(
+                "Firstname and lastname is required for registration"
+              );
+            }
+
+            user.name = null;
+          } else if (user.role === "institution") {
+            if (user.name.length <= 0) {
+              throw Error("Name is required for registration");
+            }
+
+            user.firstname = null;
+            user.lastname = null;
           }
         },
       },
@@ -61,14 +91,10 @@ module.exports = function (sequelize, DataType) {
   };
 
   user.prototype.toPublicJSON = function () {
-    return {
-      id: this.id,
-      firstname: this.firstname,
-      lastname: this.lastname,
-      otherNames: this.otherNames,
-      email: this.email,
-      regNo: this.regNo,
-    };
+    const entity = this.toJSON();
+    const list = Object.keys(entity).filter((e) => entity[e] !== null);
+
+    return _.pick(entity, list);
   };
 
   // class methods
