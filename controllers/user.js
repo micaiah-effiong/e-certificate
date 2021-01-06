@@ -11,10 +11,11 @@ module.exports = function (db) {
     name: "user",
 
     getAll: asyncHandler(async (req, res, next) => {
-      let users = await db.user.findAll();
+      const users = await db.user.findAll();
+      const usersPublicDataArray = users.map((user) => user.toPublicJSON());
       return res.json({
         success: true,
-        data: users,
+        data: usersPublicDataArray,
         count: users.length,
       });
     }),
@@ -25,7 +26,7 @@ module.exports = function (db) {
       if (!user) return next(errorResponse("Invalid request", 400));
       return res.json({
         success: true,
-        data: user.toJSON(),
+        data: user.toPublicJSON(),
       });
     }),
 
@@ -36,7 +37,7 @@ module.exports = function (db) {
       user[user.role] = extra;
       res.json({
         success: true,
-        data: user,
+        data: user.toPublicJSON(),
       });
     }),
 
@@ -49,7 +50,7 @@ module.exports = function (db) {
       res.json({
         success: true,
         msg: "User has been updated",
-        data: user.toJSON(),
+        data: user.toPublicJSON(),
       });
     }),
 
@@ -61,7 +62,6 @@ module.exports = function (db) {
       await db.user.destroy();
       return res.json({
         success: true,
-        data: user.toJSON(),
       });
     }),
   };
