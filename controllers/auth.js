@@ -9,7 +9,7 @@ module.exports = (db) => {
       req.body.role = req.body.type;
       // const _type = toSentenceCase(req.body.type || "student");
       let user = await db.user.create(req.body);
-      await user.createAuthentication({ password: req.body.password });
+      // await user.createAuthentication({ password: req.body.password });
       // await user[`create${_type}`](req.body);
       res.json({
         success: true,
