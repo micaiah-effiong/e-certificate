@@ -47,5 +47,11 @@
     "mocha": "^8.2.1",
     "node-dev": "^5.0.0",
     "sequelize-cli": "^6.2.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "sessions",
+      "public"
+    ]
   }
 }
