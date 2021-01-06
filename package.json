@@ -18,7 +18,7 @@
   "author": "Micaiah Effiong",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
@@ -44,7 +44,7 @@
     "useTabs": false
   },
   "devDependencies": {
-    "mocha": "^8.0.1",
+    "mocha": "^8.2.1",
     "node-dev": "^5.0.0",
     "sequelize-cli": "^6.2.0"
   }
